@@ -3,13 +3,13 @@
 Load balancers distribute incoming client requests to computing resources such as application servers and databases. 
 
 Load balancers...
-- prevent requests from going to unhealthy servers
-- prevents overloading resources
+- Prevent requests from going to unhealthy servers
+- Prevents overloading resources
 - Helps eliminate single points of failure
 
 Additional benefits include:
-- SSL Termination: decrypt incoming requests and encrypt server responses so backend servers do not have to
-- Session Persistence: issue cookies so we know to route client's request to the same instance (if web apps do not keep track of sessions)
+- __SSL Termination__: decrypt incoming requests and encrypt server responses so backend servers do not have to
+- __Session Persistence__: issue cookies so we know to route client's request to the same instance (if web apps do not keep track of sessions)
 
 Load balancers can route traffic in a variety of ways:
 - Random
@@ -21,7 +21,7 @@ Load balancers can route traffic in a variety of ways:
 
 ##### Layer 4 Load Balancing
 
-Load balancer looks at info at the Transport Layer (source IP, destination IP addresses, ports in the header, but NOT packet content) to make a decision, then performs a Network Address Translation (NAT) to route the packet to the correct server.
+Load balancer looks at info at the Transport Layer (source IP, destination IP addresses, ports in the header, but NOT packet content) to make a decision, then performs a __Network Address Translation__ (NAT) to route the packet to the correct server.
 
 ##### Layer 7 Load Balancing
 

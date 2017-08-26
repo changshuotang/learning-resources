@@ -3,7 +3,7 @@
 CDNs are a network of proxy servers, to serve content from locations closer to the user. Generally used for static files, thought some CDNs support dynamic content. A site's DNS resolution will tell clients which server to contact.
 
 CDNs improve performance in two ways:
-- Users receive content at data centers close to them
+- User receives content from data centers close to them
 - Your own servers do not have to serve requests that the CDN fulfills
 
 ### PUSH CDNs

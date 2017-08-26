@@ -4,6 +4,8 @@ Caching helps improve page load times and reduces the load on your servers and d
 
 ##### Client Caching
 
+Caches can be located client side, server side, or in a distinct cache layer.
+
 ##### CDN Caching
 
 [CDNs](cdn.md) are considered a type of cache.

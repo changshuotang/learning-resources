@@ -202,23 +202,49 @@ def cutTheSticks(sticks):
 	return
 ```
 
-### Maximal Rectangle (Find largest rectangle of 1's)
+### Group Anagrams
 
 ```python
-def maximalRectangle(self, matrix):
+def groupAnagrams(self, strs):
 	"""
-	:type matrix: List[List[str]]
+	:type strs: List[str]
+	:rtype: List[List[str]]
+	"""
+	d = {}
+	for string in strs:
+		key = tuple(sorted(string))
+		d[key] = d.get(key, []) + [string]
+	return d.values()
+```
+
+### Number of Islands
+
+```python
+"""
+Iterate through each space.
+If a '1' change to zero along with all connected 1s.
+Increase
+"""
+def numIslands(self, grid):
+	"""
+	:type grid: List[List[str]]
 	:rtype: int
 	"""
-	for row in matrix:
-		for x in range(len(row)):
-			height[x] = height[x] + 1 if row[i] == '1' else 0
-		stack = [-1]
-		for x in range(len(row) + 1):
-			while height[x] < height[stack[-1]]:
-				h = height[stack.pop()]
-				w = x - 1 - h
-				ans = max(ans, h * w)
-			
-	
+	count = 0
+	for i in range(len(grid)):
+		for j in range(len(grid[0])):
+			if grid[i][j] == '1':
+				self.dfs(grid, i, j)
+				count += 1
+	return count
+
+def dfs(self, grid, i, j):
+	if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != '1':
+		return
+	grid[i][j] = '0'
+	self.dfs(grid, i-1, j)
+	self.dfs(grid, i, j-1)
+	self.dfs(grid, i+1, j)
+	self.dfs(grid, i, j+1)
 ```
+

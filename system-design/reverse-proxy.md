@@ -3,12 +3,12 @@
 A web server that centralizes internal services, and provides a unified interface to the public. Client requests are translated and forwarded to a server that can fulfill it before the reverse proxy returns the server's response to the client.
 
 Benefits:
-- Increased Security: hide information about backend servers, blacklist IPs, limit number of connection per client
-- Increased Scalability and Flexibility: Client only sees the reverse proxy's IP
-- SSL Termination: decrypt incoming requests and encrypt server responses so backend servers do not have to
-- Compression: compress server responses
-- Caching: return response for cache requests
-- Static Content: serve static content directly
+- __Increased Security__: hide information about backend servers, blacklist IPs, limit number of connection per client
+- __Increased Scalability and Flexibility__: Client only sees the reverse proxy's IP
+- __SSL Termination__: decrypt incoming requests and encrypt server responses so backend servers do not have to
+- __Compression__: compress server responses
+- __Caching__: return response for cache requests
+- __Static Content__: serve static content directly
 
 ### Load Balancer vs Reverse Proxy
 

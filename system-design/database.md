@@ -4,17 +4,19 @@
 
 A collection of data items organized in tables.
 
-ACID Transactions:
-- Atomicity: each transaction is all or nothing
-- Consistency: transactions wil bring the database from one valid state to another
-- Isolation: executing transactions concurrently has the same results as if they were executes serially
-- Durability: Once a transaction is committed, it remains so
+All transactions in a RDBMS are __ACID__:
+- __Atomicity__: each transaction is all or nothing
+- __Consistency__: transactions wil bring the database from one valid state to another
+- __Isolation__: executing transactions concurrently has the same results as if they were executes serially
+- __Durability__: Once a transaction is committed, it remains so
 
-### Scaling RDBMSs
+__EXAMPLES__: MySQL, PostgreSQL
+
+### Scaling Relational Databases
 
 ##### Master-Slave Replication
 
-The master servers both reads and writes, replicating writes to one or more slaves, which serve only reads. Slaves can also replicate to additional slaves in a tree-like fashion. 
+The master servers both reads and writes, replicating writes to one or more slaves that serve only reads. Slaves can also replicate to additional slaves in a tree-like fashion. 
 
 If the master goes offline the system can continue to operate in read-only mode until a slave is promoted to master, or a new master is provisioned.
 
@@ -38,18 +40,22 @@ Denormalization stores redundant copies of data into multiple tables to avoid ex
 
 A collection of data items represent in key-value stores, document stores, wide-column stores, or a graph database.
 
-BASE:
-- Basically Available: system guarantees availability
-- Soft State: the state of the system may change over time, even without input
-- Eventual Consistency: the system will become consistent over a period of time, given it doesn't receive new inputs during that period
+NoSQL databases are __BASE__:
+- __Basically Available__: system guarantees availability
+- __Soft State__: the state of the system may change over time, even without input
+- __Eventual Consistency__: the system will become consistent over a period of time, given it doesn't receive new inputs during that period
 
 ##### Key-Value Store
 
 A key-value store generally allows for O(1) reads and writes.
 
+__EXAMPLES__: Redis, Memcached
+
 ##### Document Store
 
 Centered around documents (JSON, XML, etc.) where a document stores all information for a given object. Document stores provide APIs or a query language to query the document itself.
+
+__EXAMPLES__: MongoDB, Elasticsearch
 
 ##### Wide Column Store
 
@@ -57,13 +63,17 @@ Basic unit of data is a column (name/value pairs). Columns can be grouped into f
 
 Wide column stores offer high availability and high scalability.
 
+__EXAMPLES__: Cassandra, HBase
+
 ##### Graph Database
 
 Graph databases contain nodes and edges that represent relationship between two nodes. Graph databases are optimized to represent complex relationships with many foreign keys or many-to-many relationships.
 
+__EXAMPLES__: Neo4j, Giraph
+
 ### SQL vs NoSQL
 
-SQL:
+__SQL__:
 - Structured data
 - Strict schema
 - Relational data
@@ -73,7 +83,7 @@ SQL:
 - Scaling
 - Lookups by index are very fast
 
-NoSQL:
+__NoSQL__:
 - Semi-structured data
 - Dynamic/Flexible schema
 - Non-relational data
