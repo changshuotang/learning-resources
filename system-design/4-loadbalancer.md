@@ -11,7 +11,16 @@ Additional benefits include:
 - __SSL Termination__: decrypt incoming requests and encrypt server responses so backend servers do not have to
 - __Session Persistence__: issue cookies so we know to route client's request to the same instance (if web apps do not keep track of sessions)
 
-Load balancers can route traffic in a variety of ways:
+### Virtual IPs (VIP)
+
+Load balance network traffic using Virtual IPs. A router can perform one-to-many NAT on the VIP.
+
+### Software Load Balancers
+
+-HAProxy: TCP load balancer
+-NGINX: HTTP load balancer
+
+### Load Balancing Methods
 - Random
 - Least Loaded
 - Session/Cookies

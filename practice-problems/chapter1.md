@@ -248,3 +248,112 @@ def dfs(self, grid, i, j):
 	self.dfs(grid, i, j+1)
 ```
 
+### Spiral Matrix
+
+```python
+def spiralOrder(self, matrix):
+	res = []
+	if not matrix or not matrix[0]:
+		return res
+	x1, y1 = 0, 0
+	x2, y2 = len(matrix[0])-1, len(matrix)-1
+	while True:
+		for x in range(x1, x2+1):
+			res += [matrix[y1][x]]
+		y1 += 1
+		for y in range(y1, y2+1):
+			res += [matrix[y][x2]]
+		x2 -= 1
+		if x1 > x2 or y1 > y2:
+			break
+		for x in range(x2, x1-1, -1):
+			res += [matrix[y2][x]]
+		y2 -= 1
+		for y in range(y2, y1-1, -1):
+			res += [matrix[y][x1]]
+		x1 += 1
+		if x1 > x2 or y1 > y2:
+			break
+	return res
+```
+
+### Combination Sum
+
+Given an array of numbers and a target number, find all combinations of number with the target as its sum. Reusing numbers is allowed.
+
+```python
+def combinationSum(self, candidates, target):
+	"""
+	:type candidates: List[int]
+	:type target: int
+	:rtype: List[List[int]]
+	"""
+	res = []
+	self.dfs(candidates, target, [], res)
+	return res
+	
+def dfs(self, candidates, target, arr, res):
+	if target < 0:
+		return
+	elif target == 0:
+		res.append(arr)
+		return 
+	for i, n in enumerate(candidates):
+		self.dfs(candidates[i:], target - n, arr + [n], res)
+```
+
+### Combination
+
+```python 
+def combine(self, n, k):
+	arr = range(1, n+1)
+	res = []
+	self.dfs(arr, k, [], res)
+	return res
+	
+def dfs(self, nums, k, arr, res):
+	if k < 0:
+		return
+	if k == 0:
+		res.append(arr)
+		return
+	for i, x in enumerate(nums):
+		self.dfs(nums[i+1:], k-1, arr+[x], res)
+```
+
+```python
+def combine(self, n, k):
+	arr = range(1, n+1)
+	res = []
+	self.dfs(arr, k, 0, [], res)
+	return res
+
+def dfs(self, nums, k, index, arr, res):
+	if k < 0:
+		return
+	if k == 0:
+		res.append(arr)
+		return
+	for i in range(index, len(nums)):
+		self.dfs(nums, k-1, i+1, arr+[nums[i]], res)
+```
+
+### Maximal Square
+
+```python
+def maximalSquare(self, matrix):
+	"""
+	:type matrix: List[List[str]]
+	:rtype: int
+	"""
+	if not matrix: return 0
+	dp = [[0 if matrix[y][x] == '0' else 1 for x in range(len(matrix[0]))] for y in range(len(matrix))]
+	
+	for y in range(1, len(matrix)):
+		for x in range(1, len(matrix[0])):
+			if matrix[y][x] == '1':
+				dp[y][x] = int(min(dp[y-1][x], dp[y][x-1], dp[y-1][x-1])) + 1
+			else:
+				dp[y][x] = 0
+	return max(max(i) for i in dp) ** 2
+```
