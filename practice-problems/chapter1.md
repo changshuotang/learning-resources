@@ -410,6 +410,8 @@ def isValid(self, s):
 	return len(stk) == 0
 ```
 
+### Longest Increasing Subsequence
+
 ```python 
 def lengthOfLIS(self, nums):
 	"""
@@ -425,3 +427,28 @@ def lengthOfLIS(self, nums):
 				dp[i] = max(dp[i], dp[j]+1)
 	return max(dp)
 ```
+
+### Subset
+
+```python
+def subsets(self, nums):
+	"""
+	:type nums: List[int]
+	:rtype: List[List[int]]
+	"""
+	res = []
+	for i in range(0, 2 ** len(nums)):
+		arr = []
+		for j in range(len(nums)):
+			if (i >> j) & 1 == 1:
+				arr.append(nums[j])
+		res.append(arr)
+	return res
+```
+
+```python
+def subsets(self, nums):
+	return [[x for j,x in enumerate(nums) if (i >> j) & 1 == 1] for i in range(0, 2 ** len(nums))]
+```
+
+
