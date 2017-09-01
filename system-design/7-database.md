@@ -12,6 +12,14 @@ All transactions in a RDBMS are __ACID__:
 
 __EXAMPLES__: MySQL, PostgreSQL
 
+### Indexes
+
+Relational databases speed up queries through indexing columns. This speeds up read times at the expense of write times. 
+
+With no index, the database need to traverse the whole table to match the expression found in the WHERE clause. If the column referenced in the WHERE clause is indexed, we can perform a binary search on the indices to find each rows that match. 
+
+A general rule of thumbs to choose which columns to index would be columns that are commonly referenced in WHERE clauses, used in JOIN clauses, or are highly unique. 
+
 ### Scaling Relational Databases
 
 ##### Master-Slave Replication

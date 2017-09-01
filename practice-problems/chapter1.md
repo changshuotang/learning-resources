@@ -302,6 +302,27 @@ def dfs(self, candidates, target, arr, res):
 		self.dfs(candidates[i:], target - n, arr + [n], res)
 ```
 
+
+### Permutations
+
+```python
+def permute(self, nums):
+	"""
+	:type nums: List[int]
+	:rtype: List[List[int]]
+	"""
+	res = []
+	self.helper(nums, [], res)
+	return res
+
+def helper(self, nums, arr, finalArr):
+	if not nums:
+		finalArr.append(arr)
+		return
+	for i, n in enumerate(nums):
+		self.helper(nums[:i] + nums[i+1:], arr + [n], finalArr)
+```
+
 ### Combination
 
 ```python 
@@ -357,3 +378,77 @@ def maximalSquare(self, matrix):
 				dp[y][x] = 0
 	return max(max(i) for i in dp) ** 2
 ```
+
+### Valid Palindrome
+
+```python
+def isPalindrome(self, s):
+	"""
+	:type s: str
+	:rtype: bool
+	"""
+	import re
+	a = re.sub(r"\W", r"", s.lower())
+	return a == a[::-1]
+```
+
+### Valid Parentheses 
+
+```python
+def isValid(self, s):
+	"""
+	:type s: str
+	:rtype: bool
+	"""
+	d = { '{': '}', '[': ']', '(': ')' }
+	stk = []
+	for c in s:
+		if c in d.keys():
+			stk.append(c)
+		elif not stk or d[stk.pop()] != c:
+			return False
+	return len(stk) == 0
+```
+
+### Longest Increasing Subsequence
+
+```python 
+def lengthOfLIS(self, nums):
+	"""
+	:type nums: List[int]
+	:rtype: int
+	"""
+	if not nums:
+		return 0
+	dp = [1 for _ in range(len(nums))]
+	for i in range(1, len(nums)):
+		for j in range(i):
+			if nums[i] > nums[j]:
+				dp[i] = max(dp[i], dp[j]+1)
+	return max(dp)
+```
+
+### Subset
+
+```python
+def subsets(self, nums):
+	"""
+	:type nums: List[int]
+	:rtype: List[List[int]]
+	"""
+	res = []
+	for i in range(0, 2 ** len(nums)):
+		arr = []
+		for j in range(len(nums)):
+			if (i >> j) & 1 == 1:
+				arr.append(nums[j])
+		res.append(arr)
+	return res
+```
+
+```python
+def subsets(self, nums):
+	return [[x for j,x in enumerate(nums) if (i >> j) & 1 == 1] for i in range(0, 2 ** len(nums))]
+```
+
+
