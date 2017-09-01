@@ -40,9 +40,11 @@ void reverseString(String s) {
 	return new String(chars);
 }
 
-// Swap pairs in linked list recursively
-// 1 -> 2 -> 3 -> 4
-// 2 -> 1 -> 4 -> 3
+/**
+  * Swap pairs in linked list recursively
+  * 1 -> 2 -> 3 -> 4
+  * 2 -> 1 -> 4 -> 3
+  */
 
 void swapPairs(Node head) {
 	if (head == null) {
@@ -58,8 +60,10 @@ void swapPairs(Node head) {
 	return second;
 }
 
-// Remove n-th last node from a linked list
-// 1 -> 2 -> 3 -> 4 -> 5
+/**
+  * Remove n-th last node from a linked list
+  * 1 -> 2 -> 3 -> 4 -> 5
+  */
 
 Node removeNthLastNode(Node head, int n) {
 	if (head == null) return null;
@@ -118,7 +122,7 @@ void deleteNode(Node n) {
 
 boolean isAnagram(String a, String b) {
 	if (a.length() != b.length()) return false;
-	int[] frequencies = new int[128];
+	int[] frequencies = new int[256];
 	for (char c : a.toCharArray()) {
 		frequencies[c]++;
 	}
@@ -136,7 +140,7 @@ boolean isAnagram(String a, String b) {
 
 int numDeletesAnagram(String a, String b) {
 	int length = (a.length() > b.length()) ? a.length() : b.length();
-	int[] frequencies = new int[128];
+	int[] frequencies = new int[256];
 	char[] aChar = a.toCharArray();
 	char[] bChar = b.toCharArray();
 	for (int i = 0; i < length; i++) {
@@ -687,19 +691,44 @@ class Stack {
 
 }
 
-// Implement a queue with two stacks
+/**
+  * Implement a queue with two stacks
+  */
 
 class StackQueue {
+  private Stack<Integer> s;
+  private Stack<Integer> q;
 
+  public StackQueue() {
+    s = new Stack<>();
+    q = new Stack<>();
+  }
+
+  public void enqueue(int num) {
+    s.push(num);
+  }
+
+  public int dequeue() {
+    if (q.isEmpty()) {
+      while(!s.isEmpty()) {
+        q.push(s.pop());
+      }
+    }
+    return q.isEmpty() ? -1 : q.pop();
+  }
 }
 
-// Sort a stack with only another stack
+/**
+  * Sort a stack with only another stack
+  */
 
 Stack<Integer> sortStackWithStack(Stack<Integer> s1) {
 
 }
 
-// Find a number in a sorted array
+/**
+  * Find a number in a sorted array
+  */
 
 boolean binarySearch(int[] sortedArr, int key) {
 	int beg = 0;
@@ -723,7 +752,26 @@ boolean binarySearch(int[] sortedArr, int key) {
 	*/
 
 List<Integer> kFrequent(int[] arr) {
+  Queue<Integer> pq = new PriorityQueue<>();
 
+}
+
+/**
+  * Given two strings, return whether the first string is contained in the second string
+  */
+
+boolean contains(String str1, String str2) {
+  int[] chars = new int[256];
+  for (char c : str1.toCharArray()) {
+    chars[c]++;
+  }
+  for (char c : str2.toCharArray()) {
+    chars[c]--;
+  }
+  for (int count : chars) {
+    if (count > 0) return false;
+  }
+  return true;
 }
 
 /**
@@ -731,7 +779,17 @@ List<Integer> kFrequent(int[] arr) {
 	*/
 
 Map<String, List<String>> groupAnagrams(String[] strings) {
-
+  Map<String, List<String>> map = new HashMap<>();
+  for (String str : strings) {
+    String sortedStr = String.join("",Arrays.sort(str.toCharArray()));
+    if (map.containsKey(sortedStr)) {
+      map.get(sortedStr).add(str);
+    } else {
+      map.put(sortedStr, new ArrayList<String>);
+      map.get(sortedStr).add(str);
+    }
+  }
+  return map;
 }
 
 /**
@@ -746,19 +804,47 @@ String reverseWords(String sentence) {
 		sentenceList[i] = sentenceList[len - 1 - i];
 		sentenceList[len - 1 - i] = tmp;
 	}
-	// Join sentenceList
+	return String.join(' ', sentenceList);
 }
 
 /**
 	* Length of longest substring without repeating characters
 	*/
 
+int longestUniqueSubstring(String str) {
+  int longest = 1;
+  Set<Character> uniqueChars = new HashSet<>();
+  char[] strArr = str.toCharArray();
+  int i = 0, j = 0;
+  while (j < str.length()) {
+    while (uniqueChars.contains(strArr[j])) {
+      uniqueChars.remove(strArr[i]);
+      i++;
+    }
+    uniqueChars.add(strArr[j]);
+    j++;
+    longest = Math.max(longest, j - i);
+    }
+  }
+  return longest;
+}
+
 /**
  	* Find longest common prefix
 	*/
 
-String longestCommonPrefix(String[] string) {
-
+String longestCommonPrefix(String[] strings) {
+  if (strings == null) {
+    return "";
+  }
+  String prefix = strings[0];
+  for (int i = 1; i < strings.length; i++) {
+    while (strings[i].indexOf(prefix) != 0) {
+      prefix = prefix.substring(0,prefix.length()-1);
+      if (prefix == "") return prefix;
+    }
+  }
+  return prefix;
 }
 
 /**
@@ -1355,9 +1441,31 @@ String integerToRomanNum(int num) {
 	* Given an array of distinct elements, find triplets in array whose sum is zero
 	*/
 
+// SORTING METHOD
 List<List<Integer>> tripletsSumToZero(int[] arr) {
-
+  int mid, end;
+  Arrays.sort(arr);
+  List<List<Integer>> triplets = new ArrayList<>();
+  for (int start = 0; start < arr.length-2; start++) {
+    mid = start + 1;
+    end = arr.length - 1;
+    while (mid < end) {
+      int sum = arr[start] + arr[mid] + arr[end];
+      if (sum < 0) {
+        mid++;
+      } else if (sum > 0) {
+        end--;
+      } else {
+        mid++;
+        end--;
+        triplets.add(new ArrayList<Integer>(Arrays.asList({arr[start],arr[mid],arr[end]})));
+      }
+    }
+  }
+  return triplets;
 }
+
+// HASHING METHOD
 
 
 /**
@@ -1388,7 +1496,7 @@ int reverseNum(int num) {
  	* Interval scheduling/activity selection
 	*/
 
-
+List<Integer[]>
 
 /**
 	* Change making (DP or Greedy)
