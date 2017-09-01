@@ -718,27 +718,48 @@ boolean binarySearch(int[] sortedArr, int key) {
 	return false;
 }
 
-// Return the top k frequent elements in an array
+/**
+ 	* Return the top k frequent elements in an array
+	*/
 
 List<Integer> kFrequent(int[] arr) {
 
 }
 
-// Given an array of strings, group the anagrams together
+/**
+	* Given an array of strings, group the anagrams together
+	*/
 
 Map<String, List<String>> groupAnagrams(String[] strings) {
 
 }
 
-// Reverse words in a sentence
+/**
+ 	* Reverse words in a sentence
+	*/
 
 String reverseWords(String sentence) {
-
+	String[] sentenceList = sentence.split(" ");
+	int len = sentenceList.length;
+	for (int i = 0; i < len/2; i++) {
+		String tmp = sentenceList[i];
+		sentenceList[i] = sentenceList[len - 1 - i];
+		sentenceList[len - 1 - i] = tmp;
+	}
+	// Join sentenceList
 }
 
-// Length of longest substring without repeating characters
+/**
+	* Length of longest substring without repeating characters
+	*/
 
-// Find longest common prefix
+/**
+ 	* Find longest common prefix
+	*/
+
+String longestCommonPrefix(String[] string) {
+
+}
 
 /**
   * Implement a data structure with O(1) insert, remove, and getRandom methods (no dups)
@@ -781,9 +802,9 @@ int editDistance(String str1, String str2) {
 			// str1 is empty, you have to insert all the characters in str2
 			if (i == 0) dp[i][j] = j;
 			// str2 is empty, you have to remove all the characters in str2
-			if (j == 0) dp[i][j] = i;
+			else if (j == 0) dp[i][j] = i;
 			// str1 and str2 characters equal
-			if (str1.charAt(i-1) == str2.charAt(j-1)) {
+			else if (str1.charAt(i-1) == str2.charAt(j-1)) {
 				dp[i][j] = dp[i-1][j-1];
 			} else {
 				dp[i][j] = 1 + Math.min(dp[i-1][j], // removal
@@ -856,7 +877,21 @@ int isKPalindromeHelper(String str1, String str2) {
 	*/
 
 class HashTable {
+	List<String>[] table;
+	int size;
 
+	public HashTable(int size) {
+		this.size = size;
+		table = new List<String>[size];
+	}
+
+	public void insert(String key, String value) {
+
+	}
+
+	public void delete(String key) {
+
+	}
 }
 
 /**
@@ -943,7 +978,8 @@ Set<String> decodeStringHelper(String decoded, String code) {
 
 /**
 	* Given a string s and a dictionary of words dict, determine if s can be segmented
-	* into a space-separated sequence of one or more dictionary words.
+	* into a space-separated sequence of one or more dictionary words. Commonly
+	* known as the word break problem.
 	*/
 
 // RECURSIVE SOLUTION
@@ -999,6 +1035,7 @@ List<String> wordsInDictionaryUsed(String str, Set<String> dict) {
 // Now return the chosen order of words possible
 // INPUT: "bedbathsandbeyond", {"bed", "bath", "sand", "and", "beyond", "baths"}
 // OUTPUT: {"bed baths and beyond", "bed bath sand beyond"}
+// http://www.geeksforgeeks.org/word-break-problem-using-backtracking/
 
 List<String> sentencesFromDictionary(String str, Set<String> dict) {
 
@@ -1029,6 +1066,15 @@ boolean isSubsetSumHelper(int set[], int n, int sum) {
 	(a) including the last element
 	(b) excluding the last element   */
 	return isSubsetSum(set, n-1, sum) || isSubsetSum(set, n-1, sum - set[n-1]);
+}
+
+/**
+	* Given a set of non-negative numbers, and a value sum, return all valid
+	* subsets that add up to given sum
+	*/
+
+List<List<Integer>> returnSubsetSum(List<Integer> set, int sum) {
+
 }
 
 /**
@@ -1102,3 +1148,310 @@ static int getPairsCount(int n, int sum) {
 	// return the half of twice_count
 	return twice_count/2;
 }
+
+/**
+	* Given a number of size <= 999 billion, return its String representation
+	* (for 123, return "One Hundred Twenty Three," not "123”)
+	*/
+
+String belowOneThousandToString(int num) {
+	String result;
+	String[] tens = {"", "ten", "twenty", "thirty", "fourty", "fifty", "sixty",
+									 "seventy", "eight", "ninety"};
+	String[] ones = {"", "one", "two", "three", "four", "five", "six", "seven",
+									 "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+								 	 "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+								   "nineteen"}
+	if (num % 100 < 20) {
+		result = ones[num%100];
+		num /= 100;
+	} else {
+		result = ones[num%10];
+		num /= 10;
+		result = tens[num%10] + result;
+		num /= 10;
+	}
+	if (num == 0) return result;
+	return ones[num] + " hundred" + result;
+}
+
+String convertNumberToString(int num) {
+	String[] special = {"", "thousand", "million", "billion"};
+
+	String prefix = "";
+	if (num < 0) {
+		num *= -1;
+		prefix = "negative";
+	}
+
+	String result = "";
+	int place = 0;
+
+	do {
+		int n = num % 1000;
+		if (n != 0) {
+			String str = belowOneThousandToString(n);
+			result = str + special[place] + result;
+		}
+		place++;
+		num /= 1000;
+	} while(num > 0)
+
+	return (prefix + result).trim();
+}
+
+/**
+	* Create a copy of a linked list
+	*/
+
+Node deepCopyLinkedList(Node head) {
+	if (head == null) return null;
+	Node copyHead = new Node(head.val);
+	Node it = copyHead;
+	while (head.next != null) {
+		head = head.next;
+		it.next = new Node(head.val);
+		it = it.next;
+	}
+	return copyHead;
+}
+
+/**
+	* Create all possible subsets given a set (powerset)
+	*/
+
+List<Integer>[] returnPowerSet(int[] set) {
+	int powSize = 1 << set.length;
+	List<Integer>[] powSet = new List<Integer>[powSize];
+	for (int i = 0; i < powSet; i++) {
+		powSet[i] = new ArrayList<>();
+		for (int j = 0; j < set.length; j++) {
+			if (i & (1 << j)) {
+				powSet[i].add(set[j]);
+			}
+		}
+	}
+	return powSet;
+}
+
+/**
+	* Create a copy of a linked list with a next pointer and arbitrary second
+	* pointer that can point to any node in that linked list
+	*
+	* http://www.geeksforgeeks.org/a-linked-list-with-next-and-arbit-pointer/
+	*/
+
+Node copyWeirdLinkedList(Node head) {
+	if (head == null || head.next == null) return head;
+	Node copyHead;
+	Node it = head;
+	while (it != null) {
+		Node itNext = it.next;
+		it.next = new Node(it.val);
+		it.next.next = itNext;
+		it = itNext;
+	}
+	copyHead = head.next;
+	Node copyIt = copyHead;
+	it = head;
+	while (it != null) {
+		copyIt.arbNext = it.arbNext.next;
+		copyIt = copy.next.next;
+		it = it.next.next;
+	}
+	copyIt = copyHead;
+	it = head;
+	while (it != null) {
+		it.next = it.next.next;
+		it = it.next;
+		copyIt.next = copyIt.next.next;
+		copyIt = copytIt.next;
+	}
+	return copyHead;
+}
+
+/**
+	* Given a decimal number, find the number of 1s in its binary representation
+	*/
+
+int countOnes(int num) {
+	int count = 0;
+	while (num > 0) {
+		count += num & 1;
+		num >>= 1;
+	}
+	return count
+}
+
+/**
+	* Return the distance of the closest leaf given a key and a binary tree
+	*/
+
+int closestLeaf(Node root) {
+	if (root = null) {
+		return Integer.MAX_VALUE;
+	}
+	else if (root.left == null && root.right == null) {
+		return 1;
+	}
+	return 1 + Math.min(closestLeaf(root.left), closestLeaf(root.right));
+}
+
+int closestLeafRecurse(Node root, int k, Node[] ancestors, int index) {
+	if (root = null) {
+		return Integer.MAX_VALUE;
+	}
+	if (root.val = k) {
+		int closestDist = closestLeaf(root);
+		for (int i = index - 1; i >= 0; i--) {
+			closestDist = Math.min(closestDist, closestLeaf(ancestors[i]))
+		}
+		return closestDist;
+	}
+	ancestors[index] = root;
+	return Math.min(closestLeafRecurse(root.left, k, ancestors, index + 1),
+									closestLeafRecurse(root.right, k, ancestors, index + 1));
+}
+
+int closestLeaf(Node root, int k) {
+	Node[] ancestors = new Node[100]; // height of tree maxed at 100
+	return closestLeafRecurse(root, k, ancestors, 0);
+}
+
+/**
+	* Given a binary tree, create a doubly linked list with data in the same order
+	* as an In-Order Traversal through the tree
+	*/
+
+Node inOrderToDoublyLinkedList(Node head) {
+
+}
+
+
+/**
+	* Convert Roman numeral string to integer representation
+	*/
+
+int romanNumeralToInteger(String romanNum) {
+
+}
+
+/**
+	* Convert integer to Roman numeral representation
+	*/
+
+String integerToRomanNum(int num) {
+
+}
+
+/**
+	* Given list of (x,y) coordinates, an origin (o.x,o.y), and a number k find
+	* the k-th closest coordinate to the origin
+	*/
+
+
+
+/**
+	* Given an array of distinct elements, find triplets in array whose sum is zero
+	*/
+
+List<List<Integer>> tripletsSumToZero(int[] arr) {
+
+}
+
+
+/**
+	* Find the diameter of a binary tree. The diameter of a tree (sometimes called
+	* the width) is the number of nodes on the longest path between two leaves in
+	* the tree.
+	*/
+
+int returnDiameter(Node head) {
+
+}
+
+/**
+	* Reverse a number
+	* 1234 -> 4321
+	*/
+
+int reverseNum(int num) {
+	int reversed = 0;
+	while (num > 0) {
+		reversed = reversed * 10;
+		reverse += num % 10;
+		num /= 10;
+	}
+}
+
+/**
+ 	* Interval scheduling/activity selection
+	*/
+
+
+
+/**
+	* Change making (DP or Greedy)
+	*/
+
+/**
+	* Given an array of integers and the +, -, *, and / operations with any two
+	* numbers, find the max value possible
+	*/
+
+int getMaxNumber(int[] nums) {
+	return getMaxNumberHelper(nums, nums[0], 0);
+}
+
+int getMaxNumberHelper(int[] nums, int cur, int idx) {
+	if (idx = nums.length) {
+		return cur;
+	}
+	max = Math.max(cur + getMaxNumberHelper(nums, nums[idx], idx+1),
+								 Math.max(cur - getMaxNumberHelper(nums, nums[idx], idx+1),
+								 					getMaxNumberHelper(nums, cur*nums[idx], idx+1)));
+	if (nums[idx] != 0) {
+		max = Math.max(max, getMaxNumberHelper(nums, cur/nums[idx], idx+1));
+	}
+	return max;
+}
+
+/**
+	* Find the median of an unsorted integer array in average linear times
+	*/
+
+
+/**
+	* Given an n-ary tree, its deep copy, and a random node in the original tree,
+	* find the corresponding node in the deep copy
+	*/
+
+/**
+	* Given an array of integers and a target number, determine if an arithmetic
+	* expression using htese integers can be evaluated to the target number.
+	* You are allowed to use the +, -, * and / operations.
+	*/
+
+
+/**
+	* Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
+	*/
+
+/**
+	* Find the sum of two infinitely large integers represented as strings
+	*/
+
+/**
+	* Find the product of two large integers represented as strings
+	*/
+
+/**
+	* Merge k sorted lists
+	*/
+
+	
+
+/**
+	* Find the maximum difference between two elements in an array such that the
+	* larger number appears after the smaller number in the array
+	*/
