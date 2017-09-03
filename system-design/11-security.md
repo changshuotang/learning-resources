@@ -1,15 +1,17 @@
 ## Security
 
-### Secure Sockets Layer (SSL)
+### Secure Sockets Layer (SSL)/Transport Layer Security (TLS)
 
-SSL is a security protocol used by HTTPS to establish an encrypted connection between a client and a web server via a handshake.
+SSL is a security protocol used by HTTPS to establish an encrypted connection between a client and a web server via a handshake. Through using encryption and digital signatures, SSL provide confidentiality, integrity and authentication for data in transit.
 
-SSL Handshake:
+SSL/TLS Handshake:
 1. Client Hello; requests SSL certificate (contains public key) and cryptographic preference
 2. Server Hello; sends SSL certificate and CipherSuite chosen
 3. Client sends pre-master secret encrypted with public key
 4. Server decrypts pre-master secret with private key
 5. Client and Server both use pre-master secret to compute a secret key
+
+TLS is simply the successor and more updated version of SSL.
 
 ### Encrypt Data In-Transit and At Rest
 
