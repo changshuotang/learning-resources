@@ -82,8 +82,10 @@ Node removeNthLastNode(Node head, int n) {
 	return head;
 }
 
-// Recursively reverse  a linked list
-// 1 -> 2 -> 3 -> 4 -> 5
+/**
+ 	* Recursively reverse  a linked list
+  * 1 -> 2 -> 3 -> 4 -> 5
+	*/
 
 Node reverse(Node head) {
 	if (head == null) return null;
@@ -95,7 +97,9 @@ Node reverse(Node head) {
 	return rest;
 }
 
-// Iteratively reverse a linked list
+/**
+	* Iteratively reverse a linked list
+	*/
 
 Node reverse(Node head) {
 	if (head == null || head.next == null) return head;
@@ -111,14 +115,18 @@ Node reverse(Node head) {
 	return prev;
 }
 
-// Delete a ndoe given only that node (and if not last in a linked list)
+/**
+ 	* Delete a node given only that node (and if not last in a linked list)
+	*/
 
 void deleteNode(Node n) {
 	n.val = n.next.val;
 	n.next = n.next.next;
 }
 
-// Check if two strings are anagrams of each other
+/**
+ 	* Check if two strings are anagrams of each other
+	*/
 
 boolean isAnagram(String a, String b) {
 	if (a.length() != b.length()) return false;
@@ -136,7 +144,9 @@ boolean isAnagram(String a, String b) {
 	return true;
 }
 
-// Return the # of deletes in order to make two strings anagrams of each other
+/**
+ 	* Return the # of deletes in order to make two strings anagrams of each other
+	*/
 
 int numDeletesAnagram(String a, String b) {
 	int length = (a.length() > b.length()) ? a.length() : b.length();
@@ -158,7 +168,9 @@ int numDeletesAnagram(String a, String b) {
 	return numDeletes;
 }
 
-// Find the pair in a array that have the smallest absolute value difference
+/**
+ 	* Find the pair in a array that have the smallest absolute value difference
+	*/
 
 int[] smallestAbsValPair(int[] arr) {
 	int[] pair = new int[2];
@@ -175,7 +187,9 @@ int[] smallestAbsValPair(int[] arr) {
 	return pair;
 }
 
-// Find the number of times a substring occurs in a string
+/**
+ 	* Find the number of times a substring occurs in a string
+	*/
 
 int numSubstrOccurence(String substr, String str) {
 	char[] substrChar = substr.toCharArray();
@@ -195,7 +209,9 @@ int numSubstrOccurence(String substr, String str) {
 	return count;
 }
 
-// Add two binary numbers represented as strings
+/**
+ 	* Add two binary numbers represented as strings
+	*/
 
 String addBinaryString(String bin1, String bin2) {
 	int len1 = bin1.length();
@@ -227,9 +243,11 @@ String addBinaryString(String bin1, String bin2) {
 	return result;
 }
 
-// Validate that a string containing different parenthesis is valid (closing in the right order)
-// Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘, and ‘]’,
-// determine if the input string is valid
+/**
+ 	* Validate that a string containing different parenthesis is valid (closing in the right order)
+	* Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘, and ‘]’,
+	* determine if the input string is valid
+	*/
 
 boolean validParenthesis(String parenthesis) {
 	Map<Character, Character> validBraces = new HashMap<Character, Character>();
@@ -250,7 +268,9 @@ boolean validParenthesis(String parenthesis) {
 	return s.empty();
 }
 
-// Print all possible permuatations of a string
+/**
+ 	* Print all possible permuatations of a string
+	*/
 
 void printPermutations(String str) {
 	printPermutationsHelper("", str);
@@ -267,9 +287,11 @@ void printPermutationsHelper(String perm, String str) {
 	}
 }
 
-// Return whether two strings are isomorphic
-// egg, fee -> TRUE
-// get, tet -> FALSE
+/**
+ 	* Return whether two strings are isomorphic
+	* egg, fee -> TRUE
+	* get, tet -> FALSE
+	*/
 
 boolean isIsomorphic(String str1, String str2) {
 	if (str1.length() != str2.length()) {
@@ -293,7 +315,9 @@ boolean isIsomorphic(String str1, String str2) {
 	return true;
 }
 
-// Find the minimum distanec between two words in an array of strings (duplicates exist)
+/**
+ 	* Find the minimum distanec between two words in an array of strings (duplicates exist)
+	*/
 
 int shortestWordDistance(String[] words, String w1, String w2) {
 	int minDist = Integer.MAX_VALUE;
@@ -330,7 +354,9 @@ int shortestWordDistance(String[] words, String w1, String w2) {
 	return minDist;
 }
 
-// Return the unique items in a unsorted array
+/**
+ 	* Return the unique items in a unsorted array
+	*/
 
 List<Integer> returnUniqueElements(int[] arr) {
 	List<Integer> unique = new ArrayList<>();
@@ -344,7 +370,9 @@ List<Integer> returnUniqueElements(int[] arr) {
 	return unique;
 }
 
-// Return the unique items in a sorted array
+/**
+ 	* Return the unique items in a sorted array
+	*/
 
 int[] returnUniqueElementsInSortedArray(int[] arr) {
 	int i = 0;
@@ -371,7 +399,9 @@ List<Integer> returnUniqueElementsInSortedArray(int[] arr) {
 	return current;
 }
 
-// Print out the duplicates in an unsorted array
+/**
+ 	* Print out the duplicates in an unsorted array
+	*/
 
 void printDuplicates(int[] arr) {
 	Set<Integer> set = new HashSet<>();
@@ -384,7 +414,9 @@ void printDuplicates(int[] arr) {
 	}
 }
 
-// Print out duplicates in an sorted array
+/**
+	* Print out duplicates in an sorted array
+	*/
 
 void printDuplicatesSorted(int[] arr) {
 	for (int i = 0; i < arr.length - 1; i++) {
@@ -394,7 +426,9 @@ void printDuplicatesSorted(int[] arr) {
 	}
 }
 
-// Check if a string is just a rotation of another string
+/**
+ 	* Check if a string is just a rotation of another string
+	*/
 
 boolean checkRotation(String str1, String str2) {
 	String combined = str1 + str2;
@@ -404,8 +438,10 @@ boolean checkRotation(String str1, String str2) {
 	return false;
 }
 
-// Implement a function that returns x^n
-// n is a positive/negative integer
+/**
+ 	* Implement a function that returns x^n
+	* n is a positive/negative integer
+	*/
 
 double pow(double x, int n) {
 	int temp;
@@ -422,9 +458,11 @@ double pow(double x, int n) {
 	}
 }
 
-// Find the missing number given given a list of n-1 integers, these integers
-// are in the range 1 to n. One of the integers list is missing in the list and
-// you have to find it
+/**
+ 	* Find the missing number given given a list of n-1 integers, these integers
+  * are in the range 1 to n. One of the integers list is missing in the list and
+	* you have to find it
+	*/
 
 int missingNumber(int[] nums) {
 	// sum = n(n+1)/2
@@ -436,7 +474,9 @@ int missingNumber(int[] nums) {
 	return sum;
 }
 
-// Find max sub-array sum of input array of positive and negative integers
+/**
+ 	* Find max sub-array sum of input array of positive and negative integers
+	*/
 
 int maxSubarraySum(int[] nums) {
 	int max = 0;
@@ -453,7 +493,9 @@ int maxSubarraySum(int[] nums) {
 	return max;
 }
 
-// Return all factors of a number
+/**
+ 	* Return all factors of a number
+	*/
 
 List<Integer> returnFactors(int n) {
 	List<Integer> factors = new ArrayList<>();
@@ -470,9 +512,11 @@ List<Integer> returnFactors(int n) {
 	return factors;
 }
 
-// Move all zeroes in an array to the end
-// {1,2,0,0,1,2,0} -> {1,2,1,2,0,0,0}
-// {0,1,2,3,0,0} -> {1,2,3,0,0,0}
+/**
+ 	* Move all zeroes in an array to the end
+	* {1,2,0,0,1,2,0} -> {1,2,1,2,0,0,0}
+	* {0,1,2,3,0,0} -> {1,2,3,0,0,0}
+	*/
 
 int[] pushZeroesToEnd(int[] arr) {
 	int current = 0;
@@ -486,8 +530,10 @@ int[] pushZeroesToEnd(int[] arr) {
 	return arr;
 }
 
-// Remove duplicates in linked list
-// 1 -> 0 -> 0 -> 2 -> 3 -> 2
+/**
+ 	* Remove duplicates in linked list
+	* 1 -> 0 -> 0 -> 2 -> 3 -> 2
+	*/
 
 Node removeDups(Node head) { // not legit solution
 	if (head == null || head.next == null) {
@@ -526,7 +572,9 @@ Node removeDups(Node head) { // better solution
 	return head;
 }
 
-// Find if a linked list is looped
+/**
+ 	* Find if a linked list is looped
+	*/
 
 boolean isLooped(Node head) { // version where you don't return node where loop starts
 	Node slow = head;
@@ -631,7 +679,9 @@ class Queue {
 	}
 }
 
-// Implement a queue with an array
+/**
+ 	* Implement a queue with an array
+	*/
 
 class Queue { // FIFO
 	private int[] arr;
@@ -683,12 +733,55 @@ class Queue { // FIFO
 	}
 }
 
-// Implement a stack that returns the minimum value in constant time (no dups)
+/**
+ 	* Implement a stack that returns the minimum value in constant time (no dups)
+	*/
 
 class Stack {
-	private List<Integer> s = new ArrayList<>();
-	private List<Integer> mins = new ArrayList<>();
+	private List<Integer> s;
+	private List<Integer> mins;
 
+	public Stack() {
+		s = new ArrayList<>();
+		mins = new ArrayList<>();
+	}
+
+	public void push(int num) {
+		s.add(num);
+		if (mins.isEmpty() || num < mins.get(mins.size()-1)) {
+			mins.add(num);
+		}
+	}
+
+	public int pop() {
+		if (isEmpty()) {
+			return Integer.MIN_VALUE;
+		}
+		int ret = s.get(s.size()-1);
+		if (ret == mins.get(mins.size()-1)) {
+			mins.remove(mins.size()-1);
+		}
+		s.remove(s.size()-1);
+		return ret;
+	}
+
+	public int getMin() {
+		if (isEmpty()) {
+			return Integer.MIN_VALUE;
+		}
+		return mins.get(mins.size()-1);
+	}
+
+	public int peek() {
+		if (isEmpty()) {
+			return Integer.MIN_VALUE;
+		}
+		return s.get(s.size()-1);
+	}
+
+	public boolean isEmpty() {
+		return s.isEmpty() && mins.isEmpty();
+	}
 }
 
 /**
@@ -722,8 +815,16 @@ class StackQueue {
   * Sort a stack with only another stack
   */
 
-Stack<Integer> sortStackWithStack(Stack<Integer> s1) {
-
+Stack<Integer> sortStackWithStack(Stack<Integer> s) {
+	Stack<Integer> sorted = new Stack<>();
+	while (!s.isEmpty()) {
+		int tmp = s.pop();
+		while (!sorted.isEmpty() && tmp > sorted.peek()) {
+			s.push(sorted.pop());
+		}
+		sorted.push(tmp);
+	}
+	return sorted;
 }
 
 /**
@@ -1472,10 +1573,25 @@ List<List<Integer>> tripletsSumToZero(int[] arr) {
 	* Find the diameter of a binary tree. The diameter of a tree (sometimes called
 	* the width) is the number of nodes on the longest path between two leaves in
 	* the tree.
+	*
+	* Diameter of a tree T is the largest of the following quantities:
+	* - The diameter of T's left subtree
+	* - The diameter of T's right subtree
+	* - The heights of the left and right subtree (path goes through root)
 	*/
 
-int returnDiameter(Node head) {
+int returnDiameter(Node root) {
+	if (root == null) return 0;
+	int lh = height(root.left);
+	int rh = height(root.right);
+	int ld = returnDiameter(root.left);
+	int rd = returnDiameter(root.right);
+	return Math.max(1 + lh + rh, Math.max(ld, rd));
+}
 
+int height(Node root) {
+	if (root == null) return 0;
+	return 1 + Math.max(height(root.left), height(root.right));
 }
 
 /**
@@ -1487,9 +1603,10 @@ int reverseNum(int num) {
 	int reversed = 0;
 	while (num > 0) {
 		reversed = reversed * 10;
-		reverse += num % 10;
+		reversed += num % 10;
 		num /= 10;
 	}
+	return reversed;
 }
 
 /**
@@ -1501,6 +1618,8 @@ List<Integer[]>
 /**
 	* Change making (DP or Greedy)
 	*/
+
+
 
 /**
 	* Given an array of integers and the +, -, *, and / operations with any two
@@ -1529,10 +1648,27 @@ int getMaxNumberHelper(int[] nums, int cur, int idx) {
 	*/
 
 
+
 /**
 	* Given an n-ary tree, its deep copy, and a random node in the original tree,
 	* find the corresponding node in the deep copy
 	*/
+
+TreeNode returnCorrespondingCopyNode(TreeNode root, TreeNode copyRoot, TreeNode randNode) {
+	if (rootNode == randNode) {
+		return copyRoot;
+	}
+	TreeNode[] children = root.children();
+	TreeNode[] copyChildren = copyRoot.children();
+	TreeNode[] result = new TreeNode[children.length];
+	for (int i = 0; i < children.length; i++) {
+		result[i] = returnCorrespondingCopyNode(children[i], copyRoot[i], randNode);
+	}
+	for (TreeNode node : result) {
+		if (node != null) return node;
+	}
+	return null;
+}
 
 /**
 	* Given an array of integers and a target number, determine if an arithmetic
@@ -1541,25 +1677,194 @@ int getMaxNumberHelper(int[] nums, int cur, int idx) {
 	*/
 
 
+
 /**
 	* Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
 	*/
+
+
 
 /**
 	* Find the sum of two infinitely large integers represented as strings
 	*/
 
+String addStrings(String num1, String num2) {
+	int len1 = num1.length();
+	int len2 = num2.length();
+	String finalSum = "";
+	int carry = 0;
+	for (int i = len1-1, j = len2-1; i >= -1 || j >= -1; i--, j--) {
+		if (i < 0 && j < 0) {
+			if (carry > 0) {
+				finalSum = String.valueOf(carry) + finalSum;
+			}
+			break;
+		}
+		int sum = 0;
+		if (j < 0) {
+			sum = carry + Character.getNumericValue(num1.charAt(i));
+		} else if (i < 0) {
+			sum = carry + Character.getNumericValue(num2.charAt(j));
+		} else {
+			sum = carry + Character.getNumericValue(num1.charAt(i)) + Character.getNumericValue(num2.charAt(j));
+		}
+		if (sum > 9) {
+			carry = sum/10;
+			sum = sum % 10;
+		} else {
+			carry = 0;
+		}
+		finalSum = String.valueOf(sum) + finalSum;
+	}
+	return finalSum;
+}
+
 /**
 	* Find the product of two large integers represented as strings
 	*/
 
+
+
 /**
-	* Merge k sorted lists
+	* Merge k sorted linked lists
 	*/
 
-	
+public ListNode mergeKLists(ListNode[] lists) {
+	return partition(lists, 0, lists.length-1);
+}
+
+ListNode partition(ListNode[] lists, int beg, int end) {
+	if (beg == end) return lists[beg];
+	if (beg < end) {
+		int mid = (beg + end)/2;
+		ListNode l1 = partition(lists, beg, mid);
+		ListNode l2 = partition(lists, mid+1, end);
+		return mergeTwoSortedLinkedList(l1, l2);
+	} else { return null; }
+}
+
+ListNode mergeTwoSortedLinkedList(ListNode l1, ListNode l2) {
+	if (l1 == null) return l2;
+	if (l2 == null) return l1;
+	ListNode merged = null;
+	if (l1.val <= l2.val) {
+		merged = l1;
+		merged.next = mergeTwoSortedLinkedList(l1.next, l2);
+	} else {
+		merged = l2;
+		merged.next = mergeTwoSortedLinkedList(l1, l2.next);
+	}
+	return merged;
+}
 
 /**
 	* Find the maximum difference between two elements in an array such that the
 	* larger number appears after the smaller number in the array
+	*/
+
+int maxDiff(int[] arr) {
+	int min = Integer.MAX_VALUE;
+	int profit = 0;
+	for (int num : arr) {
+		min = Math.min(num, min);
+		profit = Math.max(profit, num - min);
+	}
+	return profit;
+}
+
+/**
+	* Find the connected components in a graph
+	*/
+
+/**
+	* Given a mapping of char representing a number to char array and an input
+	* string S. Find all possible strings that can be generated. Every character
+	* in the input string should be replaced by a character in its corresponding
+	* mapped array of characters.
+	*
+	* Input: {'1' -> ['a','b'], '2' -> ['c']}, "12"
+	* Output: ["ac", "bc"]
+	*/
+
+List<String> printLetterCombinations(String code, Map<Character, char[]> encoding) {
+	StringBuilder tmp = new StringBuilder();
+	List<String> fin = new ArrayList<>();
+	printLetterCombinationsHelper(tmp, code, 0, encoding, fin);
+	return fin;
+}
+
+void printLetterCombinationsHelper(StringBuilder tmp, String code, int idx, Map<Character, char[]> encoding, List<String> fin) {
+	if (idx == code.length()) {
+		fin.add(tmp.toString());
+		return;
+	}
+	char key = code.charAt(idx);
+	char[] chars = encoding.get(key);
+	for (char c : chars) {
+		tmp.append(c);
+		printLetterCombinationsHelper(tmp, code, idx+1, encoding, fin);
+		tmp.deleteCharAt(tmp.size()-1);
+	}
+}
+
+/**
+	* Given a dictionary and two words. Find the shortest path between two words
+	* by modifying only one character at a time and using only words in the
+	* dictionary.
+	*/
+
+/**
+	* Print binary tree in vertical order
+	*/
+
+void printVerticalOrder(Node head) {
+	TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+	printVerticalOrderHelper(head, 0, map);
+	Set<Integer> set = map.keySet();
+	for (int key : set) {
+		List<Integer> vert = map.get(key);
+		for (int val : vert) {
+			System.out.print(val);
+		}
+		System.out.println("");
+	}
+}
+
+void  printVerticalOrderHelper(Node n, int offset, TreeMap<Integer, List<Integer>> map) {
+	if (n == null)
+	return;
+	if (map.containsKey(offset)) {
+		map.get(offset).add(n.val);
+	} else {
+		map.put(offset, new ArrayList<Integer>());
+		map.get(offset).add(n.val);
+	}
+	printVerticalOrderHelper(n.left, offset-1, map);
+	printVerticalOrderHelper(n.right, offset+1, map);
+}
+
+/**
+	* Implement merge sort (recursive and iterative)
+	*/
+
+/**
+	* Print out diagonals in a matrix
+	*/
+
+/**
+	* Traverse through a b-tree and print elements
+	*/
+
+/**
+	* Given a list of persons and a function knows(i, j), which returns true if
+	* person i knows person j. Find a celebrity person such that this person doesn't
+	* know anybody else but everybody else knows him.
+	*/
+
+/**
+	* Removed unbalanced parenthesis
+	*/
+
+/**
+	* Solve towers of hanoi
 	*/
