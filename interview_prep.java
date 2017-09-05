@@ -1229,8 +1229,87 @@ List<String> sentencesFromDictionary(String str, Set<String> dict) {
 }
 
 /**
-	* Given a set of non-negative integers, and a value sum, determine if there is
-	* a subset of the given set with sum equal to given sum.
+	* Given an array of non-negative integers, and a value sum, determine if there
+	* is a continguous subarray that adds up to the given sum
+	*/
+
+boolean isSubarraySum(int[] arr, int sum) {
+
+}
+
+// Determine if there is a contiguous subarray that adds up to a multiple of
+// of the sum, n*sum, such that n is also an integer
+
+boolean isSubarraySum(int[] arr, int sum) {
+	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	map.put(0, -1);
+	int currSum = 0;
+	for (int i = 0; i < arr.length; i++) {
+		currSum += arr[i];
+		if (sum != 0) currSum %= sum;
+		if (map.containsKey(currSum) && i - map.get(currSum) > 1) {
+			return true;
+		}
+		map.put(currSum, i);
+	}
+	return numSubarrays;
+}
+
+/**
+	* Given an array of integers, and a value sum, determine if there is a
+	* continguous subarray that adds up to the given sum
+	*/
+
+boolean isSubarraySum(int[] arr, int sum) {
+	Set<Integer> set = new HashSet<Integer>();
+	int currSum = 0;
+	for (int num : arr) {
+		currSum += num;
+		if (num == sum || currSum == sum) return true;
+		if (set.contains(currSum - sum)) return true;
+		set.add(currSum);
+	}
+	return false;
+}
+
+// Return the shortest length of possible subarrays
+
+int returnShortestLengthOfSubarraySum(int[] arr, int sum) {
+	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	int currSum = 0;
+	int shortest = Integer.MAX_VALUE;
+	for (int i = 0; i < arr.length; i++) {
+		currSum += arr[i];
+		if (arr[i] == sum) shortest = 1;
+		if (currSum == sum) shortest = Math.min(i + 1, shortest);
+		if (map.containsKey(currSum - sum)) {
+			shortest = Math.min(i - map.get(currSum - sum), shortest);
+		}
+		map.put(currSum, i);
+	}
+	return shortest == Integer.MAX_VALUE ? 0 : shortest;
+}
+
+// Return the number of subarrays that add up to sum
+
+int returnNumSubarraySum(int[] arr, int sum) {
+	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	map.put(0, 1);
+	int numSubarrays = 0;
+	int currSum = 0;
+	for (int i = 0; i < arr.length; i++) {
+		currSum += arr[i];
+		if (map.containsKey(currSum - sum)) {
+			numSubarrays += map.get(currSum - sum);
+		}
+		map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+	}
+	return numSubarrays;
+}
+
+/**
+	* Given an array of non-negative integers, and a value sum, determine if there
+	* is a subset of the given set with sum equal to given sum.
 	*/
 
 // RECURSIVE SOLUTION
@@ -1255,6 +1334,29 @@ boolean isSubsetSumHelper(int set[], int n, int sum) {
 	return isSubsetSum(set, n-1, sum) || isSubsetSum(set, n-1, sum - set[n-1]);
 }
 
+// DP SOLUTION
+boolean isSubsetSum(int[] arr, int sum) {
+	int len = arr.length;
+	boolean[][] dp = new boolean[sum+1][len];
+	// if sum is 0 and its true
+	for (int i = 0; i <= len; i++) {
+		dp[0][i] = true;
+	}
+	// if sum isn't 0 and set is empty
+	for (int i = 1; i <= sum; i++) {
+		dp[sum][0] == false;
+	}
+	for (int i = 1; i <= sum; i++) {
+		for (int j = 1; j <= len; j++) {
+			dp[i][j] = dp[i][j-1];
+			if (i >= set[j-1]) {
+				dp[i][j] = dp[i][j] || subset[i - arr[j-1]][j-1];
+			}
+		}
+	}
+	return dp[sum][len];
+}
+
 /**
 	* Given a set of non-negative numbers, and a value sum, return all valid
 	* subsets that add up to given sum
@@ -1268,7 +1370,7 @@ List<List<Integer>> returnSubsetSum(List<Integer> set, int sum) {
   * Find the length of longest unique substring
 	*/
 
-public int lengthOfLongestSubstring(String s) {
+int lengthOfLongestSubstring(String s) {
 	boolean[] exist = new boolean[256];
 	int i = 0, maxLen = 0;
 	for(int j = 0; j < s.length(); j++) {
@@ -1292,15 +1394,38 @@ public int longestIncreasingSubarray(int[] arr) {
 	int maxLen = 1;
 	while (end < arr.length) {
 		if (arr[end] > arr[end-1]) {
-			if (end - start + 1 > maxLen) {
-				maxLen = end - start + 1;
-			}
+			maxLen = Math.max(maxLen, end - start + 1);
 		} else {
 			start = end;
 		}
 		end++;
 	}
 	return maxLen;
+}
+
+/**
+	* Find the longest increasing subsequence
+	*/
+
+public int longestIncreasingSubsequence(int[] arr) {
+	if (arr.length == 1) return 1;
+	int len = arr.length;
+	int[] dp = new int[len];
+	for (int i = 0; i < len; i++) {
+		dp[i] = 1;
+	}
+	for (int end = 1; end < len; end++) {
+		for (int start = 0; start < end; start++) {
+			if (arr[end] > arr[start]) {
+				dp[end] = Math.max(dp[end], dp[start]+1);
+			}
+		}
+	}
+	int longest = 0;
+	for (int i = 0; i < len; i++) {
+		longest = Math.max(longest, dp[i]);
+	}
+	return longest;
 }
 
 /**
@@ -1513,7 +1638,6 @@ int closestLeaf(Node root, int k) {
 Node inOrderToDoublyLinkedList(Node head) {
 
 }
-
 
 /**
 	* Convert Roman numeral string to integer representation
@@ -1813,6 +1937,42 @@ void printLetterCombinationsHelper(StringBuilder tmp, String code, int idx, Map<
 	* dictionary.
 	*/
 
+public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+	LinkedList<String> queue = new LinkedList<>();
+	Map<String, Integer> count = new HashMap<>();
+
+	count.put(beginWord, 1);
+	queue.add(beginWord);
+	wordList.remove(beginWord);
+
+	while (!queue.isEmpty()) {
+		String word = queue.remove();
+
+		if (word.equals(endWord)) {
+			return count.get(endWord);
+		}
+
+		StringBuilder wordBuilder = new StringBuilder(word);
+		for (int i = 0 ; i < word.length(); i++) {
+			for (char c = 'a'; c <= 'z'; c++) {
+				char origChar = wordBuilder.charAt(i);
+
+				wordBuilder.setCharAt(i,c);
+				String newWord = wordBuilder.toString();
+
+				if (wordList.contains(newWord)) {
+					queue.add(newWord);
+					count.put(newWord, count.get(word) + 1);
+					wordList.remove(newWord);
+				}
+
+				wordBuilder.setCharAt(i,origChar);
+			}
+		}
+	}
+	return 0;
+}
+
 /**
 	* Print binary tree in vertical order
 	*/
@@ -1847,24 +2007,254 @@ void  printVerticalOrderHelper(Node n, int offset, TreeMap<Integer, List<Integer
 	* Implement merge sort (recursive and iterative)
 	*/
 
+
+
 /**
 	* Print out diagonals in a matrix
 	*/
+
+
 
 /**
 	* Traverse through a b-tree and print elements
 	*/
 
+class BNode {
+	BNode[] children;
+	int[] data;
+	int degree;
+	boolean isLeaf;
+}
+
+void printAll(BNode root) {
+	printAllHelper(root);
+}
+
+void Btree::printAllHelper(BNode n) {
+	if (n == NULL)
+		return;
+	if (n.isLeaf) {
+		for (int num : n.data) {
+			System.out.println(num);
+		}
+	}
+	else {
+		for (int i = 0; i < n.degree; i++) {
+			if (n.children[i] != null) {
+				printAllHelper(n.children[i]);
+			}
+		}
+	}
+}
+
 /**
 	* Given a list of persons and a function knows(i, j), which returns true if
 	* person i knows person j. Find a celebrity person such that this person doesn't
 	* know anybody else but everybody else knows him.
+	*
+	* (Assume using 2-D array matrix to track relationships)
 	*/
+
+int findCelebrity(int numPeople) {
+	int first = 0;
+	int last = numPeople - 1;
+	while (first < last) {
+		if (knows(first,last)) { // if first knows last, first can't be a celebrity
+			start++;
+		} else { // if first doesn't know last, last can't be a celebrity
+			last--;
+		}
+	}
+	for (int i = 0; i < numPeople; i++) {
+		// start isn't a celebrity if anyone doesn't them
+		if (i != start && !knows(i,start)) return -1;
+		// start isn't a celebrity if they know anyone
+		if (i != start && knows(start,i)) return -1;
+	}
+	return start;
+}
+
+/**
+	* Determine whether parenthesis are valid
+	*/
+
+boolean validParenthesis(String str) {
+	int stack = 0;
+	for (int i = 0; i < str.length(); i++) {
+		if (str.charAt(i) == '(') stack++;
+		if (str.charAt(i) == ')') stack--;
+		if (stack < 0) return false;
+	}
+	return stack == 0;
+}
 
 /**
 	* Removed unbalanced parenthesis
 	*/
 
+List<String> removeInvalidParenthesis(String str) {
+	List<String> fin = new ArrayList<>();
+	removeInvalidParenthesisHelper(str, fin, 0, 0, new char[]{'(',')'});
+	return fin;
+}
+
+void removeInvalidParenthesisHelper(String str, List<String> fin, int start, int removed, char[] par) {
+	int stack = 0;
+	for (int i = start; i < str.length(); i++) {
+		if (str.charAt(i) == par[0]) stack++;
+		if (str.charAt(i) == par[1]) stack--;
+		if (stack >= 0) continue;
+		for (int j = removed; j <= i; j++) {
+			if (str.charAt(j) == par[1] && (j == removed || str.charAt(j-1) != par[1])) {
+				removeInvalidParenthesisHelper(str.substring(0,j)+str.substring(j+1,str.length()), fin, i, j, par);
+			}
+		}
+		return;
+	}
+	String reversed = new StringBuilder(str).reverse().toString();
+	if (par[0] == '(') {
+		removeInvalidParenthesisHelper(reversed, fin, 0, 0, new char[]{')','('});
+	} else {
+		fin.add(reversed);
+	}
+}
+
 /**
 	* Solve towers of hanoi
+	*/
+
+
+/**
+	* Validate whether a sudoku board is correctly solved
+	*/
+
+
+
+/**
+	* Given an array for which the i-th element is the price of a given stock on
+	* day i. Design an algorithm to find the maximum profit if you may complete
+	* as many transactions as you like.
+	*/
+
+int maxProfitStock(int[] stockPrices) {
+	int profit = 0;
+	for (int i = 0; i < stockPrices.length - 1; i++) {
+		if (stockPrices[i+1] > stockPrices[i]) {
+			profit += stockPrices[i+1] - stockPrices[i];
+		}
+	}
+	return profit;
+}
+
+/**
+	* Given an array for which the i-th element is the price of a given stock on
+	* day i. Design an algorithm to find the maximum profit if you may complete
+	* only two transactions over that time period.
+	*/
+
+int maxProfit(int[] prices) {
+	int hold1 = Integer.MIN_VALUE, hold2 = Integer.MIN_VALUE;
+	int release1 = 0, release2 = 0;
+	for(int i:prices){                              // Assume we only have 0 money at first
+		release2 = Math.max(release2, hold2+i);     // The maximum if we've just sold 2nd stock so far.
+		hold2    = Math.max(hold2,    release1-i);  // The maximum if we've just buy  2nd stock so far.
+		release1 = Math.max(release1, hold1+i);     // The maximum if we've just sold 1nd stock so far.
+		hold1    = Math.max(hold1,    -i);          // The maximum if we've just buy  1st stock so far.
+	}
+	return release2; ///Since release1 is initiated as 0, so release2 will always higher than release1.
+}
+
+/**
+	* Jacob and Peter have their favorite number X and Y. We have given an array
+	* with positive integer number and we need to find the long prefix index which
+	* contain equal number of X and Y. Return -1 if there is no prefix with equal
+	* number of X and Y.
+	*
+	* Input: [7,42,5,6,42,8,7,5,3,6,7], X = 7, Y = 42
+	* Output: 9
+	*/
+
+int lengthOfLongestPrefixWithFaveNumbers(int arr, int x, int y) {
+	int numX = 0;
+	int numY = 0;
+	int len = 0, longestLen = 0;
+	for (int num : arr) {
+		len++;
+		if (num == x) {
+			numX++;
+			if (numX == numY) longestLen = len;
+		}
+		if (num == y) {
+			numY++;
+			if (numX == numY) longestLen = len;
+		}
+	}
+	return longestLen;
+}
+
+/**
+	* Perform level order traversal on a n-ary tree
+	*/
+
+
+
+/**
+	* You are given an array/sequence of colors, find pairs of colors adjacent to
+	* one another (same color) and remove it. After the removal, if there are
+	* further pairs of the same color then remove them as well. Find the maximum
+	* number of pairs given the array/sequence of colors.
+	*/
+
+
+
+/**
+	* Search for element in rotated sorted array
+	*/
+
+
+
+/**
+	* Given an array, return true if it can be partitioned into two subarrays
+	* whose sum of elements are the same, else return false.
+	*
+	* Input: {5,1,5,11}
+	* Output: true (can be divided into {5,1,5} and {11} where 5 + 1 + 5 = 11
+	*/
+
+
+
+/**
+	* Perform In-Order traversal through a binary tree without recursion
+	*/
+
+
+
+/**
+	* Serialize and deserialize a binary tree
+	*/
+
+
+
+/**
+	* Print level order through a binary tree in reverse
+	*/
+
+
+
+/**
+	* Given a sorted dictionary (array of words) of an alien language, find order
+	* of characters in the language.
+	*
+	* Input: {"caa", "aaa", "aab"}
+	* Output: 'c', 'a', 'b'
+	*/
+
+
+
+/**
+	* Given two arrays of integers, compute the pair of values (one value in each
+	* array) with the smallest (non-negative) difference and return it.
+	*
+	* Input: {1,3,15,11,2},{23,127,235,19,8}
+	* Output: 3
 	*/
