@@ -188,6 +188,20 @@ int[] smallestAbsValPair(int[] arr) {
 }
 
 /**
+  * Implement strStr(). Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+  */
+
+public int strStr(String haystack, String needle) {
+  for (int i = 0; ; i++) {
+    for (int j = 0; ; j++) {
+      if (j == needle.length()) return i;
+      if (i + j == haystack.length()) return -1;
+      if (needle.charAt(j) != haystack.charAt(i + j)) break;
+    }
+  }
+}
+
+/**
  	* Find the number of times a substring occurs in a string
 	*/
 
@@ -207,6 +221,14 @@ int numSubstrOccurence(String substr, String str) {
 		}
 	}
 	return count;
+}
+
+/**
+  * Given two strings, find the number of times the second string occurs in the first string, whether continuous or discontinuous.
+  */
+
+int numSubsequence(String a, String b) {
+
 }
 
 /**
@@ -316,7 +338,7 @@ boolean isIsomorphic(String str1, String str2) {
 }
 
 /**
- 	* Find the minimum distanec between two words in an array of strings (duplicates exist)
+ 	* Find the minimum distance between two words in an array of strings (duplicates exist)
 	*/
 
 int shortestWordDistance(String[] words, String w1, String w2) {
@@ -1534,8 +1556,8 @@ Node deepCopyLinkedList(Node head) {
 
 List<Integer>[] returnPowerSet(int[] set) {
 	int powSize = 1 << set.length;
-	List<Integer>[] powSet = new List<Integer>[powSize];
-	for (int i = 0; i < powSet; i++) {
+	List<Integer>[] powSet = new List<>()[powSize];
+	for (int i = 0; i < powSize; i++) {
 		powSet[i] = new ArrayList<>();
 		for (int j = 0; j < set.length; j++) {
 			if (i & (1 << j)) {
@@ -1710,12 +1732,36 @@ int returnDiameter(Node root) {
 	int rh = height(root.right);
 	int ld = returnDiameter(root.left);
 	int rd = returnDiameter(root.right);
-	return Math.max(1 + lh + rh, Math.max(ld, rd));
+	return Math.max(lh + rh, Math.max(ld, rd));
 }
 
 int height(Node root) {
 	if (root == null) return 0;
 	return 1 + Math.max(height(root.left), height(root.right));
+}
+
+// ALTERNATE SOLUTION
+
+class IntContainer {
+  int val;
+
+  public IntContainer(int val) {
+    this.val = val;
+  }
+}
+
+int returnDiameter(Node root) {
+  IntContainer diameter = new IntContainer(0);
+  returnDiameterHelper(root, diameter);
+  return diameter.val;
+}
+
+int returnDiameterHelper(Node root, IntContainer diameter) {
+  if (root == null) return 0;
+  int lh = returnDiameterHelper(root.left, diameter);
+  int rh = returnDiameterHelper(root.right, diameter);
+  diameter.val = Math.max(diameter.val, lh + rh);
+  return 1 + Math.max(lh, rh);
 }
 
 /**
@@ -1847,7 +1893,35 @@ String addStrings(String num1, String num2) {
 	* Find the product of two large integers represented as strings
 	*/
 
+public String multiply(String num1, String num2) {
+  String a = new StringBuilder(num1).reverse().toString();
+  String b = new StringBuilder(num2).reverse().toString();
 
+  int[] sums = new int[a.length() + b.length()];
+  for (int i = 0; i < a.length(); i++) {
+    for (int j = 0; j < b.length(); j++) {
+      sums[i+j] += (a.charAt(i) - '0')*(b.charAt(j) - '0');
+    }
+  }
+
+  String product = "";
+  for (int i = 0; i < sums.length; i++) {
+    int mod = sums[i] % 10;
+    int carry = sums[i]/10;
+    if (i + 1 < sums.length) {
+      sums[i+1] += carry;
+    }
+    product = String.valueOf(mod) + product;
+  }
+
+  int prependedZeroes = 0;
+  while (prependedZeroes < product.length() - 1 && product.charAt(prependedZeroes) == '0') {
+    prependedZeroes++;
+  }
+  product = product.substring(prependedZeroes);
+
+  return product;
+}
 
 /**
 	* Merge k sorted linked lists
@@ -2196,7 +2270,26 @@ int lengthOfLongestPrefixWithFaveNumbers(int arr, int x, int y) {
 	* Perform level order traversal on a n-ary tree
 	*/
 
-
+void levelOrderTraversal(Node root) {
+  if (root == null) return;
+  List<Node> curLevel = new ArrayList<>();
+  curLevel.add(root);
+  while (curLevel.size() > 0) {
+    for (Node n : curLevel) {
+      if (n != null) System.out.print(n.val);
+    }
+    System.out.println("");
+    List<Node> parentLevel = curLevel;
+    curLevel = new ArrayList<>();
+    for (Node parent : parentLevel) {
+      if (parent.children != null) {
+        for (Node child : parent.children) {
+          curLevel.add(child);
+        }
+      }
+    }
+  }
+}
 
 /**
 	* You are given an array/sequence of colors, find pairs of colors adjacent to
@@ -2205,7 +2298,21 @@ int lengthOfLongestPrefixWithFaveNumbers(int arr, int x, int y) {
 	* number of pairs given the array/sequence of colors.
 	*/
 
-
+int numPairs(String seq) {
+  Stack<Character> s = new Stack<>();
+  int pairs = 0;
+  for (char c : seq.toCharArray()) {
+    if (s.isEmpty()) {
+      s.push(c);
+    } else if (s.peek() == c) {
+      s.pop();
+      pairs++;
+    } else {
+      s.push(c);
+    }
+  }
+  return pairs;
+}
 
 /**
 	* Search for element in rotated sorted array
@@ -2221,25 +2328,133 @@ int lengthOfLongestPrefixWithFaveNumbers(int arr, int x, int y) {
 	* Output: true (can be divided into {5,1,5} and {11} where 5 + 1 + 5 = 11
 	*/
 
-
+boolean dividedSum(int[] nums) {
+  int sum = 0;
+  for (int num : nums) {
+    sum += num;
+  }
+  int lsum = 0;
+  for (int num : nums) {
+    lsum += num;
+    if (lsum == sum - lsum) return true;
+  }
+  return false;
+} 
 
 /**
 	* Perform In-Order traversal through a binary tree without recursion
 	*/
 
+void inOrderIterative(Node root) {
+  if (root == null) return;
+  Stack<Node> s = new Stack<>();
+  while (true) {
+    while (root != null) {
+      s.push(root);
+      root = root.left;
+    }
+    if (s.isEmpty()) return;
+    root = s.pop();
+    System.out.println(root.val);
+    root = root.right;
+  }
+}
 
+/**
+  * Perform Pre-Order traversal through a binary tree without recursion
+  */
+
+void preOrderIterative(Node root) {
+  if (root == null) return;
+  Stack<Node> s = new Stack<>();
+  s.push(root);
+  while (!s.isEmpty()) {
+    Node n = s.pop();
+    System.out.println(n.val);
+    if (n.right != null) {
+      s.push(n.right);
+    }
+    if (n.left != null) {
+      s.push(n.left);
+    }
+  }
+}
+
+/**
+  * Perform Post-Order traversal through a binary tree without recursion
+  */
+
+void postOrderIterative(Node root) {
+  if (root == null) return;
+  Stack<Node> s1 = new Stack<>();
+  Stack<Node> s2 = new Stack<>();
+  s1.push(root);
+  while (!s1.isEmpty()) {
+    Node n = s1.pop();
+    s2.push(n);
+    if (n.left != null) {
+      s1.push(n.left);
+    }
+    if (n.right != null) {
+      s2.push(n.right);
+    }
+  }
+  while (!s2.isEmpty()) {
+    Node n = s2.pop();
+    System.out.println(n.val);
+  }
+}
 
 /**
 	* Serialize and deserialize a binary tree
 	*/
 
+List<String> serialize(Node root) {
+  List<String> serialized = new ArrayList<>();
+  if (root == null) {
+    serialized.add("#");
+  } else {
+    serialized.add(String.valueOf(root.val));
+    serialized.addAll(serialize(root.left));
+    serialized.addAll(serialize(root.right));
+  }
+  return serialized;
+}
 
+Node deserialize(List<String> serialized) {
+  if (serialized.size() == 0) return null;
+  String val = serialized.get(0);
+  serialized.remove(0);
+  if (val.equals("#")) return null;
+  Node n = new Node(Integer.parseInt(val));
+  n.left = deserialize(serialized);
+  n.right = deserialize(serialized);
+  return n;
+}
 
 /**
 	* Print level order through a binary tree in reverse
 	*/
 
-
+void reverseLevelOrder(Node root) {
+  Stack<Node> s = new Stack<>();
+  Stack<Node> q = new Queue<>();
+  q.add(root);
+  while (!q.isEmpty()) {
+    Node n = q.poll();
+    s.push(n);
+    if (n.left != null) {
+      q.add(n.left);
+    }
+    if (n.right != null) {
+      q.add(n.right);
+    }
+  }
+  while (!s.isEmpty()) {
+    Node n = s.pop();
+    System.out.println(n.val);
+  }
+}
 
 /**
 	* Given a sorted dictionary (array of words) of an alien language, find order
@@ -2258,3 +2473,33 @@ int lengthOfLongestPrefixWithFaveNumbers(int arr, int x, int y) {
 	* Input: {1,3,15,11,2},{23,127,235,19,8}
 	* Output: 3
 	*/
+
+
+
+/**
+  * You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+  */
+
+
+
+/**
+  * Return the minimum depth of binary tree
+  */
+
+
+
+/**
+  * Given a string that contains ternary expressions. The expressions may be nested, task is convert the given ternary expression to a binary tree.
+  */
+
+
+
+/**
+  * Implement an atoi method
+  */
+
+
+
+/**
+  * Given an array containing only 0s and 1s, find the largest subarray which contain equal no of 0s and 1s. Expected time complexity is O(n).
+  */
