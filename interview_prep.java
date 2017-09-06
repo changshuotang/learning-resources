@@ -2339,7 +2339,7 @@ boolean dividedSum(int[] nums) {
     if (lsum == sum - lsum) return true;
   }
   return false;
-} 
+}
 
 /**
 	* Perform In-Order traversal through a binary tree without recursion
