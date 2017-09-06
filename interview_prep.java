@@ -3,7 +3,7 @@
 	*/
 
 boolean isUnique(String s) {
-	boolean[] characters = new boolean[128];
+	boolean[] characters = new boolean[256];
 	for (char c : s.toCharArray()) {
 		if (characters[c] == true) return false;
 		characters[c] = true;
@@ -16,7 +16,7 @@ boolean isUnique(String s) {
 	*/
 
 char firstNonRepeatedChar(String s) {
-	int[] frequencies = new int[128];
+	int[] frequencies = new int[256];
 	for (char c : s.toCharArray()) {
 		frequencies[c]++;
 	}
@@ -2433,6 +2433,26 @@ Node deserialize(List<String> serialized) {
 }
 
 /**
+  * Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+  */
+
+List<List<Integer>> levelOrder(TreeNode root) {
+  List<List<Integer>> res = new ArrayList<List<Integer>>();
+  levelHelper(res, root, 0);
+  return res;
+}
+
+void levelHelper(List<List<Integer>> res, TreeNode root, int height) {
+  if (root == null) return;
+  if (height >= res.size()) {
+    res.add(new ArrayList<Integer>());
+  }
+  res.get(height).add(root.val);
+  levelHelper(res, root.left, height+1);
+  levelHelper(res, root.right, height+1);
+}
+
+/**
 	* Print level order through a binary tree in reverse
 	*/
 
@@ -2486,7 +2506,18 @@ void reverseLevelOrder(Node root) {
   * Return the minimum depth of binary tree
   */
 
-
+int minDepth(Node root) {
+  if (root == null) return 0;
+  int min = Integer.MAX_VALUE;
+  if (root.left != null) {
+    min = Math.min(min, minDepth(root.left));
+  }
+  if (root.right != null) {
+    min = Math.min(min, minDepth(root.right));
+  }
+  if (min == Integer.MAX_VALUE) min = 0;
+  return 1 + min;
+}
 
 /**
   * Given a string that contains ternary expressions. The expressions may be nested, task is convert the given ternary expression to a binary tree.
