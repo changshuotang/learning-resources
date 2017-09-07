@@ -359,26 +359,6 @@ def dfs(self, nums, k, index, arr, res):
 		self.dfs(nums, k-1, i+1, arr+[nums[i]], res)
 ```
 
-### Maximal Square
-
-```python
-def maximalSquare(self, matrix):
-	"""
-	:type matrix: List[List[str]]
-	:rtype: int
-	"""
-	if not matrix: return 0
-	dp = [[0 if matrix[y][x] == '0' else 1 for x in range(len(matrix[0]))] for y in range(len(matrix))]
-	
-	for y in range(1, len(matrix)):
-		for x in range(1, len(matrix[0])):
-			if matrix[y][x] == '1':
-				dp[y][x] = int(min(dp[y-1][x], dp[y][x-1], dp[y-1][x-1])) + 1
-			else:
-				dp[y][x] = 0
-	return max(max(i) for i in dp) ** 2
-```
-
 ### Valid Palindrome
 
 ```python
@@ -410,32 +390,20 @@ def isValid(self, s):
 	return len(stk) == 0
 ```
 
-### Longest Increasing Subsequence
-
-```python 
-def lengthOfLIS(self, nums):
-	"""
-	:type nums: List[int]
-	:rtype: int
-	"""
-	if not nums:
-		return 0
-	dp = [1 for _ in range(len(nums))]
-	for i in range(1, len(nums)):
-		for j in range(i):
-			if nums[i] > nums[j]:
-				dp[i] = max(dp[i], dp[j]+1)
-	return max(dp)
-```
-
 ### Subset
 
 ```python
 def subsets(self, nums):
-	"""
-	:type nums: List[int]
-	:rtype: List[List[int]]
-	"""
+	res = [[]]
+	for i in nums:
+		for arr in res[:]:
+			res.append(arr + [i])
+	return res
+```
+
+```python
+# Bit Manipulation
+def subsets(self, nums):
 	res = []
 	for i in range(0, 2 ** len(nums)):
 		arr = []
@@ -447,8 +415,7 @@ def subsets(self, nums):
 ```
 
 ```python
+# One Liner Bit Manipulation
 def subsets(self, nums):
 	return [[x for j,x in enumerate(nums) if (i >> j) & 1 == 1] for i in range(0, 2 ** len(nums))]
 ```
-
-
