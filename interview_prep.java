@@ -1148,6 +1148,56 @@ void implementQuicksort(int[] arr) {
 }
 
 /**
+  * If a = 1, b = 2, …, z = 26. Given a number string, count all possible alphabet
+  * codes that number string can generate.
+  *
+  * Input: “1123”
+  * Output: 5 (“aabc”, “kbc”, “alc”, “aaw”, “kw”)
+  */
+
+// RECURSIVE SOLUTION
+
+int countDecodeString(String code) {
+  return countDecodeStringHelper(code, code.length());
+}
+
+int countDecodeStringHelper(String code, int n) {
+  if (n == 0 || n == 1) return 1;
+  int count = 0;
+  if (code.charAt(n-1) > '0') {
+    count = countDecodeStringHelper(code, n-1);
+  }
+  if ((code.charAt(n-2) == '1' || code.charAt(n-2) == '2') && code.charAt(n-1) < '7') {
+    count += countDecodeStringHelper(code, n-2);
+  }
+  return count;
+}
+
+// DP SOLUTION
+
+int countDecodeString(String code) {
+  if (code.length() == 1) return 1;
+  int[] dp = new int[code.length()+1];
+  dp[0] = 1;
+  dp[1] = 1;
+  for (int i = 2; i <= code.length(); i++) {
+
+    // If the last digit is not 0, then last digit must add to
+    // the number of words
+    if (code.charAt(i-1) > '0') {
+      dp[i] = dp[i-1];
+    }
+
+    // If second last digit is smaller than 2 and last digit is
+    // smaller than 7, then last two digits form a valid character
+    if ((code.charAt(i-2) == '1' || code.charAt(i-2) == '2') && code.charAt(i-1) < '7') {
+      dp[i] += dp[i-2];
+    }
+  }
+  return dp[code.length()];
+}
+
+/**
   * If a = 1, b = 2, …, z = 26. Given a number string, find all possible alphabet
 	* codes that number string can generate.
 	*
@@ -1181,9 +1231,6 @@ Set<String> decodeStringHelper(String decoded, String code) {
 	}
 	return set;
 }
-
-// DP SOLUTION
-
 
 /**
 	* Given a string s and a dictionary of words dict, determine if s can be segmented
@@ -1653,12 +1700,66 @@ int closestLeaf(Node root, int k) {
 }
 
 /**
+  * Convert a binary tree into a linked list
+  */
+
+TreeNode prev = null;
+
+void flatten(TreeNode root) {
+  if (root == null)
+    return;
+  flatten(root.right);
+  flatten(root.left);
+  root.right = prev;
+  root.left = null;
+  prev = root;
+}
+
+/**
 	* Given a binary tree, create a doubly linked list with data in the same order
 	* as an In-Order Traversal through the tree
 	*/
 
-Node inOrderToDoublyLinkedList(Node head) {
+Node prev = null;
+  
+// A simple recursive function to convert a given Binary tree 
+// to Doubly Linked List
+// root --> Root of Binary Tree
+Node BinaryTree2DoubleLinkedList(Node root) 
+{
+    // Base case
+    if (root == null)
+        return;
 
+    Node head = null;
+    // Recursively convert left subtree
+    BinaryTree2DoubleLinkedList(root.left);
+    // Now convert this node
+    if (prev == null) 
+        head = root;
+    else {
+        root.left = prev;
+        prev.right = root;
+    }
+    prev = root;
+    // Finally convert right subtree
+    BinaryTree2DoubleLinkedList(root.right);
+    return head;
+}
+
+/**
+  * Given a sorted array, two integers k and x, find the k closest elements to x in the array. The result should also be sorted in ascending order. If there is a tie, the smaller elements are always preferred.
+  */
+
+List<Integer> findClosestElements(List<Integer> arr, int k, int x) {
+  int index = Collections.binarySearch(arr, x);
+  if(index < 0) index = -(index + 1);
+  int i = index - 1, j = index;                                    
+  while(k-- > 0){
+    if (i < 0 || (j<arr.size() && Math.abs(arr.get(i) - x) > Math.abs(arr.get(j) - x) ))j++;
+    else i--;
+  }
+  return arr.subList(i+1, j);
 }
 
 /**
@@ -1666,7 +1767,34 @@ Node inOrderToDoublyLinkedList(Node head) {
 	*/
 
 int romanNumeralToInteger(String romanNum) {
-
+  int res = 0;
+  for (int i = romanNum.length() - 1; i >= 0; i--) {
+    char c = romanNum.charAt(i);
+    switch (c) {
+    case 'I':
+      res += (res >= 5 ? -1 : 1);
+      break;
+    case 'V':
+      res += 5;
+      break;
+    case 'X':
+      res += 10 * (res >= 50 ? -1 : 1);
+      break;
+    case 'L':
+      res += 50;
+      break;
+    case 'C':
+      res += 100 * (res >= 500 ? -1 : 1);
+      break;
+    case 'D':
+      res += 500;
+      break;
+    case 'M':
+      res += 1000;
+      break;
+    }
+  }
+  return res;
 }
 
 /**
@@ -1674,7 +1802,11 @@ int romanNumeralToInteger(String romanNum) {
 	*/
 
 String integerToRomanNum(int num) {
-
+  String M[] = {"", "M", "MM", "MMM"};
+  String C[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+  String X[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+  String I[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+  return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10];
 }
 
 /**
@@ -1783,13 +1915,39 @@ int reverseNum(int num) {
  	* Interval scheduling/activity selection
 	*/
 
-List<Integer[]>
+List<int[]>
 
 /**
 	* Change making (DP or Greedy)
 	*/
 
+long countWays(int S[], int m, int n) {
+  //Time complexity of this function: O(mn)
+  //Space Complexity of this function: O(n)
 
+  // table[i] will be storing the number of solutions
+  // for value i. We need n+1 rows as the table is
+  // constructed in bottom up manner using the base
+  // case (n = 0)
+  long[] table = new long[n+1];
+
+  // Initialize all table values as 0
+  Arrays.fill(table, 0);   //O(n)
+
+  // Base case (If given value is 0)
+  table[0] = 1;
+
+  // Pick all coins one by one and update the table[]
+  // values after the index greater than or equal to
+  // the value of the picked coin
+  for (int i=0; i<m; i++) {
+    for (int j=S[i]; j<=n; j++) {
+      table[j] += table[j-S[i]];
+    }
+  }
+
+  return table[n];
+}
 
 /**
 	* Given an array of integers and the +, -, *, and / operations with any two
@@ -1842,9 +2000,62 @@ TreeNode returnCorrespondingCopyNode(TreeNode root, TreeNode copyRoot, TreeNode 
 
 /**
 	* Given an array of integers and a target number, determine if an arithmetic
-	* expression using htese integers can be evaluated to the target number.
+	* expression using these integers can be evaluated to the target number.
 	* You are allowed to use the +, -, * and / operations.
 	*/
+
+// SOLUTION COULD BE FAULTY
+
+boolean isReachable(ArrayList<Integer> list, int target) {
+  if (list == null || list.size() == 0)
+    return false;
+ 
+  int i = 0;
+  int j = list.size() - 1;
+ 
+  ArrayList<Integer> results = getResults(list, i, j, target);
+ 
+  for (int num : results) {
+    if (num == target) {
+      return true;
+    }
+  }
+ 
+  return false;
+} 
+
+ArrayList<Integer> getResults(ArrayList<Integer> list,int left, int right, int target) {
+  ArrayList<Integer> result = new ArrayList<Integer>();
+ 
+  if (left > right) {
+    return result;
+  } else if (left == right) {
+    result.add(list.get(left));
+    return result;
+  }
+ 
+  for (int i = left; i < right; i++) {
+ 
+    ArrayList<Integer> result1 = getResults(list, left, i, target);
+    ArrayList<Integer> result2 = getResults(list, i + 1, right, target);
+ 
+    for (int x : result1) {
+      for (int y : result2) {
+        result.add(x + y);
+        result.add(x - y);
+        result.add(x * y);
+        if (y != 0)
+          result.add(x / y);
+      }
+    }
+  }
+ 
+  return result;
+}
+
+/**
+  * We are given desired array target[] containing n elements. Compute and return the smallest possible number of the operations needed to change the array from all zeros to desired array.
+  */
 
 
 
@@ -1880,7 +2091,7 @@ String addStrings(String num1, String num2) {
 		}
 		if (sum > 9) {
 			carry = sum/10;
-			sum = sum % 10;
+			sum %= 10;
 		} else {
 			carry = 0;
 		}
@@ -1973,6 +2184,8 @@ int maxDiff(int[] arr) {
 /**
 	* Find the connected components in a graph
 	*/
+
+
 
 /**
 	* Given a mapping of char representing a number to char array and an input
@@ -2318,7 +2531,9 @@ int numPairs(String seq) {
 	* Search for element in rotated sorted array
 	*/
 
+boolean rotatedBinarySearch(int[] arr) {
 
+}
 
 /**
 	* Given an array, return true if it can be partitioned into two subarrays
@@ -2521,7 +2736,36 @@ int minDepth(Node root) {
 
 /**
   * Given a string that contains ternary expressions. The expressions may be nested, task is convert the given ternary expression to a binary tree.
+  *
+  * Input: a?b?c:d:e
+  * Output:
+  *           a
+  *          / \
+  *         b   e
+  *        / \
+  *       c   d
   */
+
+Node ternaryToTree(String exp) {
+  Stack<Node> s = new Stack<Node>();
+  Node root = new Node(exp.charAt(0));
+  s.push(root);
+  for (int i = 1; i < exp.length(); i += 2) {
+    Node n = new Node(exp.charAt(i+1));
+    char op = exp.charAt(i);
+    if (op == '?') {
+      s.peek().left = n;
+    }
+    if (op == ':') {
+      while (s.peek().right != null) {
+        s.pop();
+      }
+      s.peek().right = n;
+    }
+    s.push(n);
+  }
+  return root;
+}
 
 
 
@@ -2529,8 +2773,125 @@ int minDepth(Node root) {
   * Implement an atoi method
   */
 
-
+int atoi(String num) {
+  int fin = 0; 
+  int neg = 1;
+  for (char c : num.toCharArray()) {
+    if (c == '-') {
+      neg = -1;
+      continue;
+    }
+    fin *= 10;
+    fin += Integer.valueOf(c);
+  }
+  return neg*fin;
+}
 
 /**
   * Given an array containing only 0s and 1s, find the largest subarray which contain equal no of 0s and 1s. Expected time complexity is O(n).
   */
+
+/**
+  * Merge intervals
+  */
+
+List<Interval> merge(List<Interval> intervals) {
+  if (intervals.size() <= 1)
+    return intervals;
+    
+  // Sort by ascending starting point using an anonymous Comparator
+  intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
+    
+  List<Interval> result = new LinkedList<Interval>();
+  int start = intervals.get(0).start;
+  int end = intervals.get(0).end;
+    
+  for (Interval interval : intervals) {
+    if (interval.start <= end) // Overlapping intervals, move the end if needed
+      end = Math.max(end, interval.end);
+    else {                     // Disjoint intervals, add the previous one and reset bounds
+      result.add(new Interval(start, end));
+      start = interval.start;
+      end = interval.end;
+    }
+  }
+    
+  // Add the last interval
+  result.add(new Interval(start, end));
+  return result;
+}
+
+/**
+  * Find interval overlaps
+  */
+
+/**
+  * Find the point in which maximum intervals overlap
+  * Consider a big party where a log register for guest’s entry and exit times is maintained. Find the time at which there are maximum guests in the party. Note that entries in register are not in any order.
+  */
+
+int maxIntervalsOverlap(int[] arrival, int[] exit) {
+  Arrays.sort(arrival);
+  Arrays.sort(exit);
+  int guestsIn = 1, maxGuests = 1, time = arrival[0];
+  int i = 1, j = 0;
+  // Similar to merge in merge sort to process
+  // all events in sorted order
+  while (i < n && j < n) {
+    // If next event in sorted order is arrival,
+    // increment count of guests
+    if (arrival[i] <= exit[j]) {
+      guestsIn++;
+ 
+      // Update max_guests if needed
+      if (guestsIn > maxGuests) {
+        maxGuests = guestsIn;
+        time = arrival[i];
+      }
+      i++;  //increment index of arrival array
+    } else {
+      // If event is exit, decrement count
+      // of guests.
+      guestsIn--;
+      j++;
+    }
+  }
+  return maxGuests;
+}
+
+/**
+  * Amazing number
+  */
+
+int diffCountArray(int[] idx, int[] arr){
+  int count = 0;
+  for (size_t i = 0; i < N; i++) {
+    if (arr[i] <= idx[i]) {
+      count++;
+    }
+  }
+  return count;
+}
+
+int findANSimple(int[] arr){
+  int start = 0;
+  int len = arr.length;
+  int[] idx = new int[len];
+  int maxStart = -1;
+  int maxCount = -1;
+
+  for (start = 0; start < len; start++) {
+    //set indices according to the start position
+    for (int i = 0; i < len; i++) {
+      idx[i] = (i - start) < 0 ? (i - start + len) : i-start; // circular mod
+    }
+    
+    int currentCount = diffCountArray(idx, arr);
+    if (currentCount > maxCount) {
+      maxStart = start;
+      maxCount = currentCount;
+    }
+  }
+  
+  return maxStart;
+}
