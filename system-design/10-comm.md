@@ -46,11 +46,17 @@ TCP Handshake:
 2. Host B sends back a SYN-ACK
 3. Host A sends back a ACK
 
-In TCP if the sender does not receive a correct response it will resend the packets. If there are multiple timeouts the connection is dropped. Because of this all packets sent via TCP is guaranteed to arrive and retain their original order.
+In TCP if the sender does not receive a correct response it will resend the packets. If there are multiple timeouts the connection is dropped. 
+
+TCP Guarantees: 
+- Packets will all arrive sequentially
+- Data will be error-free
 
 ### User Datagram Protocol (UDP)
 
-UDP is a connectionless protocol. The data is only guaranteed at the datagram/packet level; they might arrive out of order or not at all.
+UDP is a connectionless protocol. The data is only guaranteed at the datagram/packet level; they might arrive out of order or not at all. 
+
+Used by DNS lookup because a DNS response can usually fit in a single packet. 
 
 ### Representational State Transfer (ReST)
 

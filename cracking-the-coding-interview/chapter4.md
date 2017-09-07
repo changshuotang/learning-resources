@@ -1,8 +1,6 @@
 # IV. Big O
 
-Big O is how we describe the efficiency of algorithms. An analogy for comparing different Big O efficiency would be a situation where you need to transfer a file to another person ASAP. Most people would assume that sending it electronically would be 
-
- fastest method but what if the file size was extremely large? The situation would arise that getting on a plane and delivering the file personally in a portable hard drive would be faster.
+Big O is how we describe the efficiency of algorithms. An analogy for comparing different Big O efficiency would be a situation where you need to transfer a file to another person ASAP. Most people would assume that sending it electronically would be the fastest method but what if the file size was extremely large? The situation would arise that getting on a plane and delivering the file personally in a portable hard drive would be faster.
 
 ## Time Complexity
 

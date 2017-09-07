@@ -192,3 +192,9 @@ def subsetSum(nums, sum):
                 dp[x] = dp[x] or dp[x-nums[i]]
     return dp[-1]
 ```
+
+### Balanced Partition
+
+### Longest Palindrome Substring
+
+### Jump Game II (Minimum Number of Jumps)

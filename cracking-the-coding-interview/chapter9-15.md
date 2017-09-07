@@ -99,9 +99,9 @@ public class LockedATM {
 A deadlock is when a thread is waiting for an object lock that another thread holds and this second thread is waiting for an object lock that the first thread holds (or an equivalent situation with several threads).
 
 Deadlocks only occur when all four of the following conditions are met:
-1)  ___Mutual Exclusion___: Only one process can access a resource at a given time.
-2)  ___Hold and Wait___: Processes already holding a resource can request additional resources with relinquishing current resources.
-3)  ___No Preemption___: One process cannot forcibly remove another process' resource.
-4)  ___Circular Wait___: Two or more processes form a circular chain where each process is waiting on another resource in the chain.
+1.  ___Mutual Exclusion___: Only one process can access a resource at a given time.
+2.  ___Hold and Wait___: Processes already holding a resource can request additional resources with relinquishing current resources.
+3.  ___No Preemption___: One process cannot forcibly remove another process' resource.
+4.  ___Circular Wait___: Two or more processes form a circular chain where each process is waiting on another resource in the chain.
 
 Deadlock prevention entails removing any of the above conditions. Most deadlock prevention algorithms focus on avoiding condition #4: circular wait.

@@ -76,7 +76,7 @@ To extract the min element on a min-heap, the topmost element, we need to first 
 
 ### Tries (Prefix Trees)
 
-A tire is a variant of an n-ary tree in which characters are stored at each node, and each path down the tree may represent a word. A * node, or null node, can be used at the end of the path to indicate complete words. A node in a trie can have anywhere from 1 through ```ALPHABET_SIZE + 1``` children. Tries are often used to store the entire English language for quick prefix lookups.
+A trie is a variant of an n-ary tree in which characters are stored at each node, and each path down the tree may represent a word. A * node, or null node, can be used at the end of the path to indicate complete words. A node in a trie can have anywhere from 1 through ```ALPHABET_SIZE + 1``` children. Tries are often used to store the entire English language for quick prefix lookups.
 
 ### Graphs
 
@@ -92,9 +92,9 @@ class Graph {
   public Node[] nodes;
 }
 
-class Node{
+class Node {
   public String name;
-  public Node[] children;
+  public Node[] neighbors;
 }
 ```
 
