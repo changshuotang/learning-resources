@@ -2004,6 +2004,8 @@ TreeNode returnCorrespondingCopyNode(TreeNode root, TreeNode copyRoot, TreeNode 
 	* You are allowed to use the +, -, * and / operations.
 	*/
 
+// SOLUTION COULD BE FAULTY
+
 boolean isReachable(ArrayList<Integer> list, int target) {
   if (list == null || list.size() == 0)
     return false;
@@ -2089,7 +2091,7 @@ String addStrings(String num1, String num2) {
 		}
 		if (sum > 9) {
 			carry = sum/10;
-			sum = sum % 10;
+			sum %= 10;
 		} else {
 			carry = 0;
 		}
