@@ -453,7 +453,7 @@ void printDuplicatesSorted(int[] arr) {
 	*/
 
 boolean checkRotation(String str1, String str2) {
-	String combined = str1 + str2;
+	String combined = str2 + str2;
 	if (combined.contains(str1)) {
 		return true;
 	}
