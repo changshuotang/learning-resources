@@ -453,7 +453,7 @@ void printDuplicatesSorted(int[] arr) {
 	*/
 
 boolean checkRotation(String str1, String str2) {
-	String combined = str2 + str2;
+	String combined = str1 + str2;
 	if (combined.contains(str1)) {
 		return true;
 	}
@@ -1321,7 +1321,7 @@ boolean isSubarraySum(int[] arr, int sum) {
 		}
 		map.put(currSum, i);
 	}
-	return numSubarrays;
+	return false;
 }
 
 /**
@@ -1601,7 +1601,7 @@ Node deepCopyLinkedList(Node head) {
 	* Create all possible subsets given a set (powerset)
 	*/
 
-List<Integer>[] returnPowerSet(int[] set) {
+List<Integer>[] returnPowerSet(int[] set) { 1 << 1 = 2; 1 << 2 = 4
 	int powSize = 1 << set.length;
 	List<Integer>[] powSet = new List<>()[powSize];
 	for (int i = 0; i < powSize; i++) {
@@ -1721,12 +1721,12 @@ void flatten(TreeNode root) {
 	*/
 
 Node prev = null;
-  
-// A simple recursive function to convert a given Binary tree 
+Node head = null;
+
+// A simple recursive function to convert a given Binary tree
 // to Doubly Linked List
 // root --> Root of Binary Tree
-Node BinaryTree2DoubleLinkedList(Node root) 
-{
+Node BinaryTree2DoubleLinkedList(Node root) {
     // Base case
     if (root == null)
         return;
@@ -1735,7 +1735,7 @@ Node BinaryTree2DoubleLinkedList(Node root)
     // Recursively convert left subtree
     BinaryTree2DoubleLinkedList(root.left);
     // Now convert this node
-    if (prev == null) 
+    if (prev == null)
         head = root;
     else {
         root.left = prev;
@@ -1744,7 +1744,6 @@ Node BinaryTree2DoubleLinkedList(Node root)
     prev = root;
     // Finally convert right subtree
     BinaryTree2DoubleLinkedList(root.right);
-    return head;
 }
 
 /**
@@ -1754,7 +1753,7 @@ Node BinaryTree2DoubleLinkedList(Node root)
 List<Integer> findClosestElements(List<Integer> arr, int k, int x) {
   int index = Collections.binarySearch(arr, x);
   if(index < 0) index = -(index + 1);
-  int i = index - 1, j = index;                                    
+  int i = index - 1, j = index;
   while(k-- > 0){
     if (i < 0 || (j<arr.size() && Math.abs(arr.get(i) - x) > Math.abs(arr.get(j) - x) ))j++;
     else i--;
@@ -1818,6 +1817,8 @@ String integerToRomanNum(int num) {
 
 /**
 	* Given an array of distinct elements, find triplets in array whose sum is zero
+	*
+	* THREE SUM
 	*/
 
 // SORTING METHOD
@@ -2009,36 +2010,36 @@ TreeNode returnCorrespondingCopyNode(TreeNode root, TreeNode copyRoot, TreeNode 
 boolean isReachable(ArrayList<Integer> list, int target) {
   if (list == null || list.size() == 0)
     return false;
- 
+
   int i = 0;
   int j = list.size() - 1;
- 
+
   ArrayList<Integer> results = getResults(list, i, j, target);
- 
+
   for (int num : results) {
     if (num == target) {
       return true;
     }
   }
- 
+
   return false;
-} 
+}
 
 ArrayList<Integer> getResults(ArrayList<Integer> list,int left, int right, int target) {
   ArrayList<Integer> result = new ArrayList<Integer>();
- 
+
   if (left > right) {
     return result;
   } else if (left == right) {
     result.add(list.get(left));
     return result;
   }
- 
+
   for (int i = left; i < right; i++) {
- 
+
     ArrayList<Integer> result1 = getResults(list, left, i, target);
     ArrayList<Integer> result2 = getResults(list, i + 1, right, target);
- 
+
     for (int x : result1) {
       for (int y : result2) {
         result.add(x + y);
@@ -2049,7 +2050,7 @@ ArrayList<Integer> getResults(ArrayList<Integer> list,int left, int right, int t
       }
     }
   }
- 
+
   return result;
 }
 
@@ -2266,7 +2267,7 @@ public int ladderLength(String beginWord, String endWord, List<String> wordList)
 
 void printVerticalOrder(Node head) {
 	TreeMap<Integer, List<Integer>> map = new TreeMap<>();
-	printVerticalOrderHelper(head, 0, map);
+	printOrderHelper(head, 0, map);
 	Set<Integer> set = map.keySet();
 	for (int key : set) {
 		List<Integer> vert = map.get(key);
@@ -2757,6 +2758,7 @@ Node ternaryToTree(String exp) {
       s.peek().left = n;
     }
     if (op == ':') {
+			s.pop();
       while (s.peek().right != null) {
         s.pop();
       }
@@ -2767,14 +2769,41 @@ Node ternaryToTree(String exp) {
   return root;
 }
 
+// Function to convert Ternary Expression to a Binary
+// Tree. It return the root of tree
+Node convertExpression(char[] expression, int i)
+{
+	// Base case
+	if (i >= expression.length)
+		return null;
 
+	// store current character of expression_string
+	// [ 'a' to 'z']
+	Node root = new Node(expression[i]);
+
+	// Move ahead in str
+	++i;
+
+	// if current character of ternary expression is '?'
+	// then we add next character as a left child of
+	// current node
+	if (i < expression.length && expression[i]=='?')
+		root.left = convertExpression(expression, i+1);
+
+	// else we have to add it as a right child of
+	// current node expression.at(0) == ':'
+	else if (i < expression.length)
+		root.right = convertExpression(expression, i+1);
+
+	return root;
+}
 
 /**
   * Implement an atoi method
   */
 
 int atoi(String num) {
-  int fin = 0; 
+  int fin = 0;
   int neg = 1;
   for (char c : num.toCharArray()) {
     if (c == '-') {
@@ -2798,14 +2827,14 @@ int atoi(String num) {
 List<Interval> merge(List<Interval> intervals) {
   if (intervals.size() <= 1)
     return intervals;
-    
+
   // Sort by ascending starting point using an anonymous Comparator
   intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
-    
+
   List<Interval> result = new LinkedList<Interval>();
   int start = intervals.get(0).start;
   int end = intervals.get(0).end;
-    
+
   for (Interval interval : intervals) {
     if (interval.start <= end) // Overlapping intervals, move the end if needed
       end = Math.max(end, interval.end);
@@ -2815,7 +2844,7 @@ List<Interval> merge(List<Interval> intervals) {
       end = interval.end;
     }
   }
-    
+
   // Add the last interval
   result.add(new Interval(start, end));
   return result;
@@ -2842,7 +2871,7 @@ int maxIntervalsOverlap(int[] arrival, int[] exit) {
     // increment count of guests
     if (arrival[i] <= exit[j]) {
       guestsIn++;
- 
+
       // Update max_guests if needed
       if (guestsIn > maxGuests) {
         maxGuests = guestsIn;
@@ -2885,13 +2914,13 @@ int findANSimple(int[] arr){
     for (int i = 0; i < len; i++) {
       idx[i] = (i - start) < 0 ? (i - start + len) : i-start; // circular mod
     }
-    
+
     int currentCount = diffCountArray(idx, arr);
     if (currentCount > maxCount) {
       maxStart = start;
       maxCount = currentCount;
     }
   }
-  
+
   return maxStart;
 }
