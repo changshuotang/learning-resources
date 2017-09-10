@@ -64,8 +64,9 @@ Used by DNS lookup because a DNS response can usually fit in a single packet.
 
 - Minify on client side (HTML, CSS, Javascript)
 - Put scripts on the bottom of doc so the rest of the page loads first
-- Lazy Loading: asynchronously load the page in order
+- Lazy Loading: asynchronously load the page 
 - Cache (CDNs, in-memory caches, etc.)
 - Backend services optimization
 - Scale your resources
+- Optimize images
 
