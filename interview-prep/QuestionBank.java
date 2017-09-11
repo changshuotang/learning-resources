@@ -874,9 +874,21 @@ boolean binarySearch(int[] sortedArr, int key) {
  	* Return the top k frequent elements in an array
 	*/
 
-List<Integer> kFrequent(int[] arr) {
-  Queue<Integer> pq = new PriorityQueue<>();
+/**
+ 	* Return the top k elements in an array
+	*/
 
+List<Integer> kFrequent(int[] arr, int k) {
+	Queue<Integer> pq = new PriorityQueue<>();
+	for (int num :arr) {
+		pq.add(num);
+		if (pq.size() > k) pq.poll();
+	}
+	List<Integer> fin = new ArrayList<Integer>();
+	while (!pq.isEmpty()) {
+		fin.add(pq.poll());
+	}
+	return fin;
 }
 
 /**
@@ -947,7 +959,6 @@ int longestUniqueSubstring(String str) {
     uniqueChars.add(strArr[j]);
     j++;
     longest = Math.max(longest, j - i);
-    }
   }
   return longest;
 }
@@ -989,7 +1000,7 @@ int editDistance(String str1, String str2) {
     return editDistanceHelper(str1, str2, str1.length(), str2.length());
 }
 
-int editDistanceHelper(String str1, String str2, int it1, it2) {
+int editDistanceHelper(String str1, String str2, int it1, int it2) {
 	if (it1 == 0) return it2;
 	if (it2 == 0) return it1;
 	if (str1.charAt(it1) == str2.charAt(it2)) {
@@ -2318,7 +2329,7 @@ void printAll(BNode root) {
 	printAllHelper(root);
 }
 
-void Btree::printAllHelper(BNode n) {
+void printAllHelper(BNode n) {
 	if (n == NULL)
 		return;
 	if (n.isLeaf) {
@@ -2892,7 +2903,7 @@ int maxIntervalsOverlap(int[] arrival, int[] exit) {
   * Amazing number
   */
 
-int diffCountArray(int[] idx, int[] arr){
+int diffCountArray(int[] idx, int[] arr) {
   int count = 0;
   for (size_t i = 0; i < N; i++) {
     if (arr[i] <= idx[i]) {
@@ -2902,7 +2913,7 @@ int diffCountArray(int[] idx, int[] arr){
   return count;
 }
 
-int findANSimple(int[] arr){
+int findANSimple(int[] arr) {
   int start = 0;
   int len = arr.length;
   int[] idx = new int[len];
@@ -2923,4 +2934,123 @@ int findANSimple(int[] arr){
   }
 
   return maxStart;
+}
+
+/**
+ 	* Implement an LRU cache
+	*/
+	
+class LRUCache {
+	private int cacheSize;
+	private Map<Integer, Node> cache;
+	private Node head;
+	private Node tail;
+
+	class Node {
+		int pageKey;
+		Object pageVal;
+		Node prev;
+		Node next;
+
+		public Node(int pageKey, Object pageVal) {
+			this.pageKey = pageKey;
+			this.pageVal = pageVal;
+			this.prev = null;
+			this.next = null;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("key: %s, value: %s", pageKey, pageVal.toString());
+		}
+	}
+
+	public LRUCache(int cacheSize) {
+		this.cacheSize = cacheSize;
+		this.cache = new HashMap<Integer, Node>();
+	}
+
+	public Object getPage(int pageKey) {
+		Node pageNode;
+		if (cache.containsKey(pageKey)) { // cache contains reference to page in memory
+			pageNode = cache.get(pageKey);
+			/* detach node from LL */
+			if (pageNode.prev != null) {
+				pageNode.prev.next = pageNode.next;
+			}
+			if (pageNode != head && pageNode.next != null) {
+				pageNode.next.prev = pageNode.prev;
+			}
+		} else { // cache doesn't contain reference to page and retrieves from disk
+			pageNode = getPageFromDisk(pageKey);
+			if (cache.size() == cacheSize) { // cache size full, remove least recently used
+				cache.remove(tail.pageKey);
+				tail = tail.prev;
+				tail.next = null;
+			} 
+			if (head == null) { // cache is empty
+				head = pageNode;
+				tail = pageNode;
+			}
+		}
+		if (head != pageNode) { // update LL to reflect most recently used page
+			head.prev = pageNode;
+			pageNode.next = head;
+			head = head.prev;
+		}
+		cache.put(pageKey, pageNode);
+		return pageNode.pageVal;
+	}
+
+	public void printQueue() {
+		Node tmp = head;
+		while (tmp != null) {
+			System.out.println(tmp);
+			tmp = tmp.next;
+		}
+	}
+
+	public void printCache() {
+		System.out.println(cache.toString());
+	}
+
+	private Node getPageFromDisk(int pageKey) {
+		return new Node(pageKey, String.valueOf(pageKey));
+	}
+}
+
+/**
+ 	* Implement a queue with one stack
+	*/
+	
+class QueueOneStack {
+	Stack<Integer> s;
+	int retVal;
+
+	public QueueOneStack() {
+		s = new Stack<Integer>();
+	}
+
+	public void enqueue(int num) {
+		s.push(num);
+	}
+
+	public int dequeue() {
+		dequeueHelper();
+		return retVal;
+	}
+
+	private void dequeueHelper() {
+		if (s.size() == 0) {
+			retVal = Integer.MIN_VALUE;
+			return;
+		}
+		if (s.size() == 1) {
+			retVal = s.pop();
+			return;
+		}
+		int save = s.pop();
+		dequeueHelper();
+		s.push(save);
+	}
 }
