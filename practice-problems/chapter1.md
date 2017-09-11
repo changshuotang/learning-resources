@@ -419,3 +419,24 @@ def subsets(self, nums):
 def subsets(self, nums):
 	return [[x for j,x in enumerate(nums) if (i >> j) & 1 == 1] for i in range(0, 2 ** len(nums))]
 ```
+
+### Remove Duplicate Letters
+
+```python
+'''
+Greedy Solution:
+- Try substrings starting with the smallest chars first
+- If substring contains all characters in set(s)
+- Add char to result and recurse with rest of substring
+'''
+def removeDuplicateLetters(self, s):
+	"""
+	:type s: str
+	:rtype: str
+	"""
+	for c in sorted(set(s)):
+		suffix = s[s.index(c):]
+		if set(suffix) == set(s):
+			return c + self.removeDuplicateLetters(suffix.replace(c, ''))
+	return ''
+```
