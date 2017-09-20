@@ -57,3 +57,25 @@ $$
 $$
 If\ A\ and\ B\ mutually\ exclusive:\ P(A\ and\ B) = P(A)\ or\ P(B)
 $$
+
+### Combinatorics
+
+$$
+Number\ Of\ Unique\ Pairs\ (Handshakes):\ (n-1)+(n-2)+\ ...\ +1=\frac{n(n-1)}{2}
+$$
+
+$$
+Rounds\ In\ A\ Knockout\ Tournament:\ \frac{n}{2}+\frac{n}{4}+\ ...\ +\frac{n}{n} = n-1
+$$
+
+$$
+Number\ Of\ Binary\ Strings\ With\ Length\ n:\ 2^n
+$$
+
+$$
+Permutations:\ \frac{n!}{(n-r)!}
+$$
+
+$$
+Combinations:\ \frac{n!}{r!(n-r)!}
+$$

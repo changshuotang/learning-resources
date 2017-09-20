@@ -326,6 +326,7 @@ def helper(self, nums, arr, finalArr):
 ### Combination
 
 ```python 
+# Time Limit Exceeded
 def combine(self, n, k):
 	arr = range(1, n+1)
 	res = []
@@ -340,23 +341,6 @@ def dfs(self, nums, k, arr, res):
 		return
 	for i, x in enumerate(nums):
 		self.dfs(nums[i+1:], k-1, arr+[x], res)
-```
-
-```python
-def combine(self, n, k):
-	arr = range(1, n+1)
-	res = []
-	self.dfs(arr, k, 0, [], res)
-	return res
-
-def dfs(self, nums, k, index, arr, res):
-	if k < 0:
-		return
-	if k == 0:
-		res.append(arr)
-		return
-	for i in range(index, len(nums)):
-		self.dfs(nums, k-1, i+1, arr+[nums[i]], res)
 ```
 
 ### Valid Palindrome

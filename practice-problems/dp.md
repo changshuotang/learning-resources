@@ -256,3 +256,4 @@ def canPartition(self, nums):
             if i >= n:
                 dp[i] = prevDp[i] or prevDp[i - n]
     return dp[-1]
+```
